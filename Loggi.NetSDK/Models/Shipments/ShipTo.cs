@@ -1,9 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using Loggi.NetSDK.Models.Converters;
 using Loggi.NetSDK.Models.Enums;
+using Loggi.NetSDK.Models.Shipments.AddressTypes;
 
 namespace Loggi.NetSDK.Models.Shipments
 {
+    /// <summary>
+    /// Objeto que representa os dados do recebedor.
+    /// </summary>
     public class ShipTo
     {
         /// <summary>
@@ -54,27 +59,8 @@ namespace Loggi.NetSDK.Models.Shipments
         /// Os objetos correiosAddress e lineAddress são mutuamente exclusivos.
         /// </summary>
         [Required(ErrorMessage = "Address é necessario.")]
+        [JsonConverter(typeof(AddressTypeConverter))]
         [JsonPropertyName("address")]
         public IAddressType Address { get; set; }
-
-        /// <summary>
-        /// Identifica a transportadora responsável pelo pacote no fluxo de operação universal.
-        /// </summary>
-        [JsonPropertyName("shippingCompany")]
-        public ShippingCompany? ShippingCompany { get; set; }
-
-        /// <summary>
-        /// Identificador do tipo de coleta. Por padrão será considerado o valor PICKUP_TYPE_SPOT.
-        /// </summary>
-        [JsonPropertyName("pickupType")]
-        public string PickupType { get; set; } = PickupTypes.PickupTypeSpot;
-
-        /// <summary>
-        /// Identificador do tipo de entrega. Por padrão será considerado o valor DELIVERY_TYPE_CUSTOMER_DOOR.
-        /// </summary>
-        [JsonPropertyName("deliveryType")]
-        public string DeliveryType { get; set; } = DeliveryTypes.DeliveryTypeCustomerDoor;
-        
-        
     }
 }

@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using Loggi.NetSDK.Models.Converters;
 using Loggi.NetSDK.Models.Enums;
+using Loggi.NetSDK.Models.Shipments.DocumentTypes;
 
 namespace Loggi.NetSDK.Models.Shipments
 {
@@ -60,6 +62,21 @@ namespace Loggi.NetSDK.Models.Shipments
         [JsonPropertyName("heightCm")]
         public int HeightCm { get; set; }
 
-        [JsonPropertyName("documentTypes")] public List<IDocumentType> DocumentTypes { get; set; }
+        [JsonPropertyName("documentTypes")]
+        [JsonConverter(typeof(DocumentTypeListConverter))]
+        public List<IDocumentType> DocumentTypes { get; set; }
+
+        /// <summary>
+        /// Valor que identifica se o pacote está embalado. Por padrão, o pacote é considerado embalado (true).
+        /// </summary>
+        [JsonPropertyName("packaged")]
+        public bool Packaged { get; set; } = true;
+
+        [JsonPropertyName("labelled")] public bool Labelled { get; set; } = true;
+
+        [MinLength(0)]
+        [MaxLength(100)]
+        [JsonPropertyName("sequence")]
+        public string Sequence { get; set; }
     }
 }

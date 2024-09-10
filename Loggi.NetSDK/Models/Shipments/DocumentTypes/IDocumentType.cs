@@ -1,7 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using Loggi.NetSDK.Models.Enums;
 
-namespace Loggi.NetSDK.Models.Shipments
+namespace Loggi.NetSDK.Models.Shipments.DocumentTypes
 {
     public interface IDocumentType
     {
@@ -17,7 +19,7 @@ namespace Loggi.NetSDK.Models.Shipments
     public class DocumentType : IDocumentType
     {
         [MaxLength(50)]
-        [JsonPropertyName("subPackageNumber")]
+        [JsonPropertyName("subPackageNumber é necessario.")]
         public string SubPackageNumber { get; set; }
 
         [Required(ErrorMessage = "Cte é necessario.")]
@@ -25,15 +27,9 @@ namespace Loggi.NetSDK.Models.Shipments
         public Cte Cte { get; set; }
     }
 
-    public class InvoiceDocumentType : DocumentType
-    {
-    }
 
-    public class ContentDeclarationDocumentType : DocumentType
-    {
-    }
 
-    public class DirDocumentType : DocumentType
-    {
-    }
+
+
+    
 }

@@ -53,30 +53,25 @@ public class Tests
 
 
     [Test]
-    public async Task TestUnauthenticatedClient()
+    public void TestUnauthenticatedClient()
     {
         var emptyClient = new LoggiClient("");
-
-        var response = await emptyClient.AuthenticateAsync("", "");
-
-        Assert.That(response.Error, Is.Not.Null);
-        Assert.That(response.Data, Is.Null);
-        Assert.That(response.Error.Code, Is.EqualTo(EnumErrorCode.Unauthenticated));
-        TestContext.WriteLine(response);
+        Assert.ThrowsAsync<ArgumentNullException>(async () => { await emptyClient.AuthenticateAsync("", ""); });
     }
 
     [Test]
-    public async Task TestInvalidAuthenticationWithEmptyValues()
+    public void TestInvalidAuthenticationWithEmptyValues()
+    {
+        Assert.ThrowsAsync<ArgumentNullException>(async () =>
+            await _loggiClient.AuthenticateAsync("", ""));
+    }
+
+    [Test]
+    public async Task TestInvalidAuthenticationAnythingValue()
     {
         var response = await _loggiClient.AuthenticateAsync("asddsadsag", "fhghgfhfg");
 
         Assert.That(response.Error, Is.Not.Null);
-    }
-
-    public void TestInvalidAuthenticationAnythingValue()
-    {
-        Assert.ThrowsAsync<ArgumentNullException>(async () =>
-            await _loggiClient.AuthenticateAsync("adsdsadsa", "12312314"));
     }
 
     [Test]
@@ -257,7 +252,9 @@ public class Tests
         Assert.That(shipment, Is.Not.Null);
     }
 
+
     [Test]
+    [Ignore(reason: "Para não criar diversos shipments enviando a loggi.")]
     public async Task TestSendValidShipment()
     {
         var shipmentBuilder = new ShipmentBuilder();
@@ -331,6 +328,86 @@ public class Tests
         Assert.That(shipment, Is.Not.Null);
         Assert.That(response.Error, Is.Null);
         Assert.That(response.Data, Is.Not.Null);
+        Assert.That(response.Data.Packages, Is.Not.Zero);
+    }
+
+    [Test]
+    [Ignore(reason: "Para não criar diversos shipments enviando a loggi.")]
+    public async Task TestSendInvalidShipment()
+    {
+        // Sends with an empty ShipFrom 
+        var shipmentBuilder = new ShipmentBuilder();
+        var shipment = shipmentBuilder.SetShipFrom(new ShipFrom())
+            .SetShipTo(new ShipTo()
+            {
+                Name = "Jose dos Santos Alvarenga",
+                Email = "jose.alvarenga@email.com",
+                PhoneNumber = "351911169807",
+                FederalTaxId = "23742246000134",
+                StateTaxId = "123233578",
+                Address = new LineAddressType()
+                {
+                    Instrunctions = "Próximo ao posto.",
+                    LineAddress = new LineAddress()
+                    {
+                        AddressLine1 = "Alameda Santos, 2400 - Jardim Paulista, São Paulo, Brasil",
+                        AddressLine2 = "Alameda Santos, 2800 - Jardim Paulista, São Paulo, Brasil",
+                        PostalCode = "14182000",
+                        City = "São Paulo",
+                        State = "São Paulo",
+                        Country = "Brasil"
+                    }
+                }
+            }).AddPackage(new Package()
+            {
+                WeightG = 250,
+                LengthCm = 50,
+                WidthCm = 50,
+                HeightCm = 25,
+                DocumentTypes = new List<IDocumentType>()
+                {
+                    new InvoiceDocumentType()
+                    {
+                        Invoice = new Invoice()
+                        {
+                            Key = "35200920402853000167550100000013071406204048",
+                            Series = "10",
+                            Number = "1306",
+                            TotalValue = "844.82"
+                        }
+                    }
+                }
+            }).Build();
+
+        var json = JsonSerializer.Serialize(shipment, _serializerOptions);
+        TestContext.WriteLine(json);
+
+        var response = await _loggiClient.CriarShipmentAsync(shipment);
+        Assert.That(response.Error, Is.Not.Null);
+        Assert.That(response.Error.Code, Is.EqualTo(EnumErrorCode.FailedPrecondition));
+    }
+
+    [Test]
+    public void TestInvalidRastrearPacote()
+    {
+        Assert.ThrowsAsync<ArgumentNullException>(async () => await _loggiClient.RastrearPacote(""));
+    }
+
+    [Test]
+    public async Task TestRastrearPacote()
+    {
+        var response = await _loggiClient.RastrearPacote("R021125001546");
+
+        Assert.That(response.Error, Is.Null);
+        Assert.That(response.Data.Packages, Is.Not.Zero);
+    }
+
+    [Test]
+    public async Task TestRastrearPacoteDetalhado()
+    {
+        var response = await _loggiClient.RastrearPacoteDetalhado("R021125001546");
+
+        Assert.That(response.Error, Is.Null);
         Assert.That(response.Data.Packages, Is.Not.Zero);
     }
 }

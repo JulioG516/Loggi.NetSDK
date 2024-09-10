@@ -33,16 +33,23 @@ namespace Loggi.NetSDK.Models.Helpers
                 };
             }
         }
-        
+
         internal static async Task<LoggiResponse<T>> SendGetJsonAsync<T>(this HttpClient httpClient,
-            HttpRequestMessage requestMessage, Token token)
+            string url, Token token)
             where T : class
         {
             if (token == null || string.IsNullOrEmpty(token.IdToken))
                 throw new InvalidOperationException(
                     "Você precisa autenticar primeiro, usando o método LoggiClient.AuthenticateAsync");
 
+            if (string.IsNullOrEmpty(url))
+                throw new InvalidOperationException("Url não fornecido.");
+
+            var requestMessage = new HttpRequestMessage(HttpMethod.Get, url);
+            requestMessage.Headers.Add("Authorization", $"Bearer {token.IdToken}");
+
             var response = await httpClient.SendAsync(requestMessage);
+
             if (response.IsSuccessStatusCode)
             {
                 var json = await response.Content.ReadAsStringAsync();
@@ -63,17 +70,24 @@ namespace Loggi.NetSDK.Models.Helpers
 
 
         internal static async Task<LoggiResponse<T>> SendPostAsync<T>(this HttpClient httpClient,
-            HttpRequestMessage requestMessage, object body, Token token)
+            string url, object body, Token token)
             where T : class
         {
             // Serialize the body to JSON
-            var jsonBody = JsonSerializer.Serialize(body);
-            requestMessage.Content = new StringContent(jsonBody, System.Text.Encoding.UTF8, "application/json");
 
             if (token == null || string.IsNullOrEmpty(token.IdToken))
                 throw new InvalidOperationException(
                     "Você precisa autenticar primeiro, usando o método LoggiClient.AuthenticateAsync");
 
+            if (string.IsNullOrEmpty(url))
+                throw new InvalidOperationException("Url não fornecido.");
+
+
+            HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Post,
+                url);
+
+            var jsonBody = JsonSerializer.Serialize(body);
+            requestMessage.Content = new StringContent(jsonBody, System.Text.Encoding.UTF8, "application/json");
             requestMessage.Headers.Add("authorization", $"Bearer {token.IdToken}");
 
             var response = await httpClient.SendAsync(requestMessage);

@@ -1,6 +1,7 @@
 ﻿{
   "Loggi": {
     "ClientId": "",
-    "ClientSecret": ""
+    "ClientSecret": "",
+    "CompanyId" : ""
   }
 }

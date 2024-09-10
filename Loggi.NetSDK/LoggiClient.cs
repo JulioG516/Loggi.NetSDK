@@ -3,40 +3,60 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Loggi.NetSDK.Models;
 using Loggi.NetSDK.Models.Helpers;
+using Loggi.NetSDK.Models.Shipments;
 
 namespace Loggi.NetSDK
 {
     public class LoggiClient
     {
-        private readonly string _clientId;
-        private readonly string _clientSecret;
+        private string _clientId;
+        private string _clientSecret;
+        private readonly string _companyId;
 
         private readonly HttpClient _httpClient;
 
-        public LoggiClient(string clientId, string clientSecret)
+        private Token _token;
+
+        public LoggiClient(string companyId)
         {
-            this._clientId = clientId;
-            this._clientSecret = clientSecret;
+            _companyId = companyId;
             _httpClient = new HttpClient()
             {
                 BaseAddress = new Uri("https://api.loggi.com/")
             };
         }
 
-
-        public async Task<LoggiResponse<Token>> GetToken()
+        public async Task<LoggiResponse<Token>> AuthenticateAsync(string clientId, string clientSecret)
         {
-            var response = await _httpClient.SendPostAsync<Token>(new HttpRequestMessage(HttpMethod.Post,
-                "oauth2/token"), new TokenRequest()
+            if (string.IsNullOrEmpty(clientId))
+                throw new ArgumentNullException(nameof(clientId), "clientID não pode ser nulo ou vazio.");
+
+            if (string.IsNullOrEmpty(clientSecret))
+                throw new ArgumentNullException(nameof(clientSecret), "clientSecret não pode ser nulo ou vazio.");
+            
+            var response = await _httpClient.GetToken(new TokenRequest()
             {
-                ClientId = _clientId,
-                ClientSecret = _clientSecret
+                ClientId = clientId,
+                ClientSecret = clientSecret
             });
+
+            if (response.Data != null)
+            {
+                _token = response.Data;
+                _clientId = clientId; // So we can refresh later on
+                _clientSecret = clientSecret;
+            }
 
             return response;
         }
-        
-        
-        
+
+        public async Task<LoggiResponse<ShipmentResponse>> CriarShipmentAsync(Shipment shipment)
+        {
+            var response = await _httpClient.SendPostAsync<ShipmentResponse>(
+                new HttpRequestMessage(HttpMethod.Post, $"v1/companies/{_companyId}/async-shipments"),
+                shipment, _token);
+
+            return response;
+        }
     }
 }

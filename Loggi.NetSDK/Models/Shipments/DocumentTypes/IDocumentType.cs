@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
-using Loggi.NetSDK.Models.Enums;
 
 namespace Loggi.NetSDK.Models.Shipments.DocumentTypes
 {

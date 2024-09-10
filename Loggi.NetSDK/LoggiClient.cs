@@ -11,7 +11,7 @@ namespace Loggi.NetSDK
         private readonly string _clientId;
         private readonly string _clientSecret;
 
-        private HttpClient _httpClient;
+        private readonly HttpClient _httpClient;
 
         public LoggiClient(string clientId, string clientSecret)
         {

@@ -34,7 +34,7 @@ public class Tests
         };
 
 
-        _loggiClient = new LoggiClient(lastFmConfig.ClientId,  lastFmConfig.ClientSecret);
+        _loggiClient = new LoggiClient(lastFmConfig.ClientId, lastFmConfig.ClientSecret);
 
         _serializerOptions = new JsonSerializerOptions
         {
@@ -63,6 +63,7 @@ public class Tests
         var data = await _loggiClient.GetToken();
 
         Assert.That(data.Error, Is.Null);
+        TestContext.WriteLine(data);
     }
 
     [Test]

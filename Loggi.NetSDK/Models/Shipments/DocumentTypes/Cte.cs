@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace Loggi.NetSDK.Models.Shipments
+namespace Loggi.NetSDK.Models.Shipments.DocumentTypes
 {
     public class Cte
     {

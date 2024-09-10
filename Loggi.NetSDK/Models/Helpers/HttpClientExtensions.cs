@@ -16,7 +16,7 @@ namespace Loggi.NetSDK.Models.Helpers
                 var json = await response.Content.ReadAsStringAsync();
                 return new LoggiResponse<T>
                 {
-                    Data = JsonSerializer.Deserialize<T>(json)
+                    Data = JsonSerializer.Deserialize<T>(json)!
                 };
             }
             else
@@ -44,7 +44,7 @@ namespace Loggi.NetSDK.Models.Helpers
                 var json = await response.Content.ReadAsStringAsync();
                 return new LoggiResponse<T>
                 {
-                    Data = JsonSerializer.Deserialize<T>(json)
+                    Data = JsonSerializer.Deserialize<T>(json)!
                 };
             }
             else

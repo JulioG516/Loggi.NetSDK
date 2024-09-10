@@ -1,4 +1,6 @@
-﻿namespace Loggi.NetSDK.Models
+﻿using System.Text;
+
+namespace Loggi.NetSDK.Models
 {
     public class LoggiResponse<T>
     {
@@ -8,8 +10,18 @@
 
         public override string ToString()
         {
-            return string.Format("IsSucess: {0}\nData Type: {1}\nError:{2} - {3}", IsSuccess, Data?.GetType(),
-                Error?.Code, Error?.Message);
+            var sb = new StringBuilder().Append("IsSucess: ")
+                .Append(IsSuccess)
+                .Append("\nData Type: ")
+                .Append(Data?.GetType());
+            if (Error != null)
+            {
+                sb.Append("\nError:")
+                    .Append(Error?.Code)
+                    .Append(" - ")
+                    .Append(Error?.Message);
+            }
+            return sb.ToString();
         }
     }
 }

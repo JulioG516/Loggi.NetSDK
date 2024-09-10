@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using Loggi.NetSDK.Models.Converters;
-using Loggi.NetSDK.Models.Enums;
 using Loggi.NetSDK.Models.Shipments.AddressTypes;
 
 namespace Loggi.NetSDK.Models.Shipments

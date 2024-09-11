@@ -9,6 +9,7 @@ using Loggi.NetSDK.Models.Enums;
 using Loggi.NetSDK.Models.FreightPriceQuotation;
 using Loggi.NetSDK.Models.Helpers;
 using Loggi.NetSDK.Models.Labels;
+using Loggi.NetSDK.Models.Package;
 using Loggi.NetSDK.Models.Shipments;
 using Loggi.NetSDK.Models.Tracking;
 using Loggi.NetSDK.Models.TrackingDetails;
@@ -183,7 +184,7 @@ namespace Loggi.NetSDK
 
             return response;
         }
-        
+
         public async Task<LoggiResponse<QuotationResponse>> CriarCotacao(Quotation quotation)
         {
             if (quotation == null)
@@ -191,13 +192,34 @@ namespace Loggi.NetSDK
 
 
             var response = await _httpClient.SendPostAsync<QuotationResponse>
-                ($"/v1/companies/{_companyId}/quotations", 
-                    quotation, _token);
+            ($"/v1/companies/{_companyId}/quotations",
+                quotation, _token);
 
             return response;
         }
 
-        // TODO: Packages - Medium
+        /// <summary>
+        /// É possível cancelar o envio de um pacote, desde que o status não esteja como entregue, cancelado ou extraviado.
+        /// Se o pacote estiver no status Saiu para entrega ou com os Correios, vamos tentar cancelar o envio, mas não garantimos que dê certo. Nesses casos, a API retorna uma mensagem de aviso.
+        /// Você consegue consultar a lista de status clicando aqui.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<LoggiResponse<PackageCancelResponse>> CancelarPacote(string trackingCode, string loggiKey = "")
+        {
+            if (string.IsNullOrEmpty(trackingCode) && string.IsNullOrEmpty(loggiKey))
+                throw new InvalidOperationException(
+                    "Deve conter ao menos um dos valores para ser usado TrackingCode ou LoggiKey.");
+            
+            string query;
+            query = !string.IsNullOrEmpty(loggiKey) ? $"?loggi_key={loggiKey}" : $"?tracking_code={trackingCode}";
+
+            var response = await _httpClient.SendPostAsync<PackageCancelResponse>
+                ($"/v1/companies/{_companyId}/packages/cancel{query}", null, _token);
+            
+            return response;
+        }
+
+        // TODO: Packages - Update - Hard
 
         // TODO: Integrador - Medium
 

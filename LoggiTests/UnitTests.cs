@@ -413,7 +413,7 @@ public class Tests
     [Test]
     public async Task TestRastrearPacote()
     {
-        var response = await _loggiClient.RastrearPacote("R021125001546");
+        var response = await _loggiClient.RastrearPacote("R012321001540");
 
         Assert.That(response.Error, Is.Null);
         Assert.That(response.Data.Packages, Is.Not.Zero);
@@ -594,13 +594,50 @@ public class Tests
             .Build();
 
         TestContext.WriteLine(JsonSerializer.Serialize(quotationPickupTypes, _serializerOptions));
-        
+
         var response = await _loggiClient.CriarCotacao(quotationPickupTypes);
         TestContext.WriteLine(response);
 
         Assert.That(response.Error, Is.Null);
         Assert.That(response.Data, Is.Not.Null);
         Assert.That(response.Data.Quotations, Is.Not.Zero);
+    }
+
+    #endregion
+
+    #region Editar Pacotes
+
+    [Test]
+    public async Task TestCancelarPedidoJaCanceladoWithTrackingCode()
+    {
+        var response = await _loggiClient.CancelarPacote("R012321001540");
+
+        Assert.That(response.Error, Is.Not.Null);
+        Assert.That(response.Error.Message, Is.EqualTo("CancelPackageFinalizerStatusException"));
+    }
+
+    [Test]
+    public async Task TestCancelarPedidoJaCanceladoWithLoggiKey()
+    {
+        var response = await _loggiClient.CancelarPacote("", "IFRGGWLG3TXAGV3TEUJR4EKUS6");
+
+        Assert.That(response.Error, Is.Not.Null);
+        Assert.That(response.Error.Message, Is.EqualTo("CancelPackageFinalizerStatusException"));
+    }
+
+    [Test]
+    public async Task TestCancelarPedidoJaCanceladoWithBothValues()
+    {
+        var response = await _loggiClient.CancelarPacote("R012321001540", "IFRGGWLG3TXAGV3TEUJR4EKUS6");
+
+        Assert.That(response.Error, Is.Not.Null);
+        Assert.That(response.Error.Message, Is.EqualTo("CancelPackageFinalizerStatusException"));
+    }
+
+    [Test]
+    public  void TestInvalidCancelarPedido()
+    {
+        Assert.ThrowsAsync<InvalidOperationException>(async () => { await _loggiClient.CancelarPacote("", "");});
     }
 
     #endregion

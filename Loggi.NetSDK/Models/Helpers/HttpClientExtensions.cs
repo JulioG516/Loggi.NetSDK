@@ -71,7 +71,7 @@ namespace Loggi.NetSDK.Models.Helpers
 
 
         internal static async Task<LoggiResponse<T>> SendPostAsync<T>(this HttpClient httpClient,
-            string url, object body, Token token)
+            string url, object? body, Token token)
             where T : class
         {
             // Serialize the body to JSON
@@ -87,8 +87,13 @@ namespace Loggi.NetSDK.Models.Helpers
             HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Post,
                 url);
 
-            var jsonBody = JsonSerializer.Serialize(body);
-            requestMessage.Content = new StringContent(jsonBody, System.Text.Encoding.UTF8, "application/json");
+
+            if (body != null)
+            {
+                var jsonBody = JsonSerializer.Serialize(body);
+                requestMessage.Content = new StringContent(jsonBody, System.Text.Encoding.UTF8, "application/json");
+            }
+
             requestMessage.Headers.Add("authorization", $"Bearer {token.IdToken}");
 
             var response = await httpClient.SendAsync(requestMessage);

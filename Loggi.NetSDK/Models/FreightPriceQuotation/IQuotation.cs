@@ -18,13 +18,12 @@ namespace Loggi.NetSDK.Models.FreightPriceQuotation
         [JsonPropertyName("shipTo")]
         public IQuotationAddress? ShipTo { get; set; }
 
-        [JsonPropertyName("packages")] public QuotationPackage? Packages { get; set; }
+        [JsonPropertyName("packages")] public List<QuotationPackage>? Packages { get; set; }
     }
 
     public class QuotationPickupTypes : Quotation
     {
-        [JsonPropertyName("pickupTypes")] 
-        public List<string>? PickupTypes { get; set; }
+        [JsonPropertyName("pickupTypes")] public List<string>? PickupTypes { get; set; }
     }
 
     public class QuotationExternalServices : Quotation

@@ -19,12 +19,12 @@ namespace Loggi.NetSDK.Models.TrackingDetails
         /// Componente inteiro do preço do envio do pacote. Um envio com preço de 7,52 teria "7" units.
         /// </summary>
         [JsonPropertyName("units")]
-        public String Units { get; set; }
+        public string Units { get; set; }
 
         /// <summary>
         /// Componente não inteiro do preço do envio do pacote multiplicado por 10⁹. Um envio com preço de 7,52 teria 520000000 nanos.
         /// </summary>
         [JsonPropertyName("nanos")]
-        public string Nanos { get; set; }
+        public long Nanos { get; set; }
     }
 }

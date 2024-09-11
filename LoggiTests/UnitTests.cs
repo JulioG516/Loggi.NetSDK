@@ -2,11 +2,14 @@ using System.Text.Encodings.Web;
 using System.Text.Json.Serialization;
 using Loggi.NetSDK;
 using Loggi.NetSDK.Models.Addresses;
+using Loggi.NetSDK.Models.FreightPriceQuotation;
 using Loggi.NetSDK.Models.Shipments;
 using Loggi.NetSDK.Models.Shipments.AddressTypes;
 using Loggi.NetSDK.Models.Shipments.DocumentTypes;
 using Loggi.NetSDK.Models.Shipments.ShipmentBuilder;
+using Loggi.NetSDK.Models.TrackingDetails;
 using Microsoft.Extensions.Configuration;
+using QuotationBuilder = Loggi.NetSDK.Models.FreightPriceQuotation.Fluent.QuotationBuilder;
 
 namespace LoggiTests;
 
@@ -442,6 +445,97 @@ public class Tests
     public void TestCriarEtiquetaException()
     {
         Assert.ThrowsAsync<ArgumentNullException>(async () => await _loggiClient.CriarEtiqueta(""));
+    }
+
+    #endregion
+
+    #region Freight Price Quotation
+
+    [Test]
+    public void TestQuotationsBuilder()
+    {
+        var quotationPickupTypes = QuotationBuilder.CreateBuilder()
+            .UsePickupTypes(new List<string> { "Type1", "Type2" })
+            .SetShipFrom(new QuotationAddressCorreios()
+            {
+                Correios = new CorreiosAddress()
+                {
+                    Logradouro = "R. Liberdade",
+                    Cep = "30622580",
+                    Cidade = "Belo Horizonte",
+                    Uf = "MG"
+                }
+            })
+            .SetShipTo(new QuotationAddressCorreios
+            {
+                Correios = new CorreiosAddress()
+                {
+                    Logradouro = "R. Liberdade",
+                    Cep = "30622580",
+                    Cidade = "Belo Horizonte",
+                    Uf = "MG"
+                }
+            })
+            .AddPackage(new QuotationPackage
+            {
+                WeightG = 1200,
+                LengthCm = 55,
+                WidthCm = 55,
+                HeightCm = 100,
+                GoodsValue = new PricingAmount()
+                {
+                    CurrencyCode = "BRL",
+                    Units = "87",
+                    Nanos = 350000000
+                }
+            })
+            .Build();
+
+        var quotationExternalIds = QuotationBuilder.CreateBuilder()
+            .UseExternalIds(new List<string> { "Type1", "Type2" })
+            .SetShipFrom(new QuotationAddressCorreios()
+            {
+                Correios = new CorreiosAddress()
+                {
+                    Logradouro = "R. Liberdade",
+                    Cep = "30622580",
+                    Cidade = "Belo Horizonte",
+                    Uf = "MG"
+                }
+            })
+            .SetShipTo(new QuotationAddressCorreios
+            {
+                Correios = new CorreiosAddress()
+                {
+                    Logradouro = "R. Liberdade",
+                    Cep = "30622580",
+                    Cidade = "Belo Horizonte",
+                    Uf = "MG"
+                }
+            })
+            .AddPackage(new QuotationPackage
+            {
+                WeightG = 1200,
+                LengthCm = 55,
+                WidthCm = 55,
+                HeightCm = 100,
+                GoodsValue = new PricingAmount()
+                {
+                    CurrencyCode = "BRL",
+                    Units = "87",
+                    Nanos = 350000000
+                }
+            })
+            .Build();
+
+        Assert.That(quotationPickupTypes, Is.Not.Null);
+        Assert.That(quotationPickupTypes.ShipTo, Is.Not.Null);
+        Assert.That(quotationPickupTypes.ShipFrom, Is.Not.Null);
+
+
+        Assert.That(quotationExternalIds, Is.Not.Null);
+        Assert.That(quotationExternalIds.ShipTo, Is.Not.Null);
+        Assert.That(quotationExternalIds.ShipFrom, Is.Not.Null);
     }
 
     #endregion

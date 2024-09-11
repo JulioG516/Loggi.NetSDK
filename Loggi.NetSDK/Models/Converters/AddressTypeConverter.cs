@@ -5,7 +5,7 @@ using Loggi.NetSDK.Models.Shipments.AddressTypes;
 
 namespace Loggi.NetSDK.Models.Converters
 {
-    public class AddressTypeConverter : JsonConverter<IAddressType>
+    internal class AddressTypeConverter : JsonConverter<IAddressType>
     {
         public override IAddressType? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {

@@ -30,11 +30,11 @@ namespace Loggi.NetSDK.Models.Shipments
         public string Barcode { get; set; }
 
         /// <summary>
-        /// Tipos de frete do pacote. Default em <see cref="FreightTypes.FreightTypeEconomic"/>
+        /// Tipos de frete do pacote. Default em <see cref="FreightTypes.Economic"/>
         /// </summary>
         [Required(ErrorMessage = "FreightType é necessario.")]
         [JsonPropertyName("freightType")]
-        public string FreightType { get; set; } = FreightTypes.FreightTypeEconomic;
+        public string FreightType { get; set; } = FreightTypes.Economic;
 
         /// <summary>
         /// Peso do pacote em gramas. Valor máximo 30000.

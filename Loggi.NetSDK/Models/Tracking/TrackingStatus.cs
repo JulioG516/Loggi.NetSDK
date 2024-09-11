@@ -11,8 +11,6 @@ namespace Loggi.NetSDK.Models.Tracking
         /// <summary>
         /// Código numérico referente ao estado do pacote. *Listado como Int nos documentarios da Logggi porem é string.*
         /// </summary>
-        //TODO: Fazer um enum para o status
-        //TODO: Fazer um converter para o status
         [JsonPropertyName("code")]
         public string Code { get; set; }
 

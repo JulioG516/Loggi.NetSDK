@@ -3,6 +3,9 @@ using System.Text.Json.Serialization;
 
 namespace Loggi.NetSDK.Models.Shipments.AddressTypes
 {
+    /// <summary>
+    /// Objeto que encapsula os possiveis enderecos que podem ser devolvidos pela Loggi na api de Shipment.
+    /// </summary>
     public interface IAddressType
     {
         [Required]

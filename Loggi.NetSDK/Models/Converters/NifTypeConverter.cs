@@ -5,7 +5,7 @@ using Loggi.NetSDK.Models.Shipments.NifTypes;
 
 namespace Loggi.NetSDK.Models.Converters
 {
-    public class NifTypeConverter : JsonConverter<INifType>
+    internal class NifTypeConverter : JsonConverter<INifType>
     {
         public override INifType? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {

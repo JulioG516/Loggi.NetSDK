@@ -2,7 +2,7 @@
 {
     public static class FreightTypes
     {
-        public const string FreightTypeEconomic = "FREIGHT_TYPE_ECONOMIC";
-        public const string FreightTypeExpress = "FREIGHT_TYPE_EXPRESS";
+        public const string Economic = "FREIGHT_TYPE_ECONOMIC";
+        public const string Express = "FREIGHT_TYPE_EXPRESS";
     }
 }

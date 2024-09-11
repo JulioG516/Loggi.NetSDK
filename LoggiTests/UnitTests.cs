@@ -1,6 +1,7 @@
 using System.Text.Encodings.Web;
 using System.Text.Json.Serialization;
 using Loggi.NetSDK;
+using Loggi.NetSDK.Models.Addresses;
 using Loggi.NetSDK.Models.Shipments;
 using Loggi.NetSDK.Models.Shipments.AddressTypes;
 using Loggi.NetSDK.Models.Shipments.DocumentTypes;
@@ -102,7 +103,7 @@ public class Tests
                                 Series = "001",
                                 Number = "123456789",
                                 TotalValue = "1000",
-                                Icms = IcmsTypes.IcmsFree
+                                Icms = IcmsTypes.Free
                             }
                         },
                         new ContentDeclarationDocumentType
@@ -410,4 +411,38 @@ public class Tests
         Assert.That(response.Error, Is.Null);
         Assert.That(response.Data.Packages, Is.Not.Zero);
     }
+
+    # region Etiquetas
+
+    [Test]
+    public async Task TestCriarUmaEtiqueta()
+    {
+        var response = await _loggiClient.CriarEtiqueta("MVTTG2LG3TXAOY3DASIM3WQZT4");
+
+        Assert.That(response.Error, Is.Null);
+        Assert.That(response.Data, Is.Not.Null);
+        Assert.That(response.Data.Success, Is.Not.Null);
+    }
+
+    [Test]
+    public async Task TestCriaEtiquetasComErro()
+    {
+        var response = await _loggiClient.CriarEtiqueta(new List<string>
+        {
+            "MVTTG2LG3TXAOY3DASIM3WQZT4", "MVTTG2LG3TXAOY3DASIM3WQ234",
+            "INIDKWLG3TXAJJAXCYNN3GQ4DV"
+        });
+
+        Assert.That(response.Data, Is.Not.Null);
+        Assert.That(response.Data.Success, Is.Not.Null);
+        Assert.That(response.Data.Failure.Count, Is.Not.Zero);
+    }
+
+    [Test]
+    public void TestCriarEtiquetaException()
+    {
+        Assert.ThrowsAsync<ArgumentNullException>(async () => await _loggiClient.CriarEtiqueta(""));
+    }
+
+    #endregion
 }

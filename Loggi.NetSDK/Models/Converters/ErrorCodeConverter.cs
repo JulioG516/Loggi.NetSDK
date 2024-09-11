@@ -5,7 +5,7 @@ using Loggi.NetSDK.Models.Enums;
 
 namespace Loggi.NetSDK.Models.Converters
 {
-    public class ErrorCodeConverter : JsonConverter<EnumErrorCode>
+    internal class ErrorCodeConverter : JsonConverter<EnumErrorCode>
     {
         public override EnumErrorCode Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {

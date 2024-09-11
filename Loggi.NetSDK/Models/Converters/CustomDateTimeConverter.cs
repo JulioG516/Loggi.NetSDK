@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace Loggi.NetSDK.Models.Converters
 {
-    public class CustomDateTimeConverter : JsonConverter<DateTime?>
+    internal class CustomDateTimeConverter : JsonConverter<DateTime?>
     {
         private const string DateFormat = "yyyy-MM-dd";
 

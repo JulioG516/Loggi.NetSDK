@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Loggi.NetSDK.Models;
+using Loggi.NetSDK.Models.Authorization;
+using Loggi.NetSDK.Models.Enums;
 using Loggi.NetSDK.Models.Helpers;
+using Loggi.NetSDK.Models.Labels;
 using Loggi.NetSDK.Models.Shipments;
 using Loggi.NetSDK.Models.Tracking;
 using Loggi.NetSDK.Models.TrackingDetails;
@@ -126,16 +130,67 @@ namespace Loggi.NetSDK
             return response;
         }
 
-        // TODO: Labels - ez
+        /// <summary>
+        /// A geração de etiqueta Loggi só pode ser feita após a resposta de sucesso do serviço de criação de pacotes.
+        /// Para o serviço de criação de pacotes assíncrono, deve-se aguardar a mensagem de confirmação do webhook de que o pacote foi criado.
+        /// A solicitação de geração de uma etiqueta está sempre associada à um envio previamente criado.
+        /// Para referenciar este(s) envio(s), será necessário informar o(s) loggiKey(s) associado(s).
+        /// </summary>
+        /// <param name="loggiKey">LoggiKey obtido ao criar um shipment.</param>
+        /// <param name="layout">Valor Opcional para configurar o Layout de resposta Veja possiveis Valores: <see cref="LabelLayouts"/> O Valor padrão é <see cref="LabelLayouts.LayoutA4"/></param>
+        /// <param name="responseType">Valor opcional para configurar o tipo de resposta, Possiveis Valores: <see cref="LabelResponseTypes"/> O valor padrão é <see cref="LabelResponseTypes.Base64"/></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">Quando é fornecida uma LoggiKey vazia ou nula.</exception>
+        public async Task<LoggiResponse<LabelResponse>> CriarEtiqueta(string loggiKey,
+            string layout = LabelLayouts.LayoutA4, string responseType = LabelResponseTypes.Base64)
+        {
+            if (string.IsNullOrEmpty(loggiKey))
+                throw new ArgumentNullException(nameof(loggiKey), "A LoggiKey não pode ser nula ou vazia.");
+
+            return await CriarEtiqueta(new List<string> { loggiKey }, layout, responseType);
+        }
+
+
+        /// <summary>
+        /// A geração de etiqueta Loggi só pode ser feita após a resposta de sucesso do serviço de criação de pacotes.
+        /// Para o serviço de criação de pacotes assíncrono, deve-se aguardar a mensagem de confirmação do webhook de que o pacote foi criado.
+        /// A solicitação de geração de uma etiqueta está sempre associada à um envio previamente criado.
+        /// Para referenciar este(s) envio(s), será necessário informar o(s) loggiKey(s) associado(s).
+        /// </summary>
+        /// <param name="loggiKeys">Lista de strings de LoggiKeys obtidos ao criar shipments.</param>
+        /// <param name="layout">Valor Opcional para configurar o Layout de resposta Veja possiveis Valores: <see cref="LabelLayouts"/> O Valor padrão é <see cref="LabelLayouts.LayoutA4"/></param>
+        /// <param name="responseType">Valor opcional para configurar o tipo de resposta, Possiveis Valores: <see cref="LabelResponseTypes"/> O valor padrão é <see cref="LabelResponseTypes.Base64"/></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">Quando é fornecida uma LoggiKey vazia ou nula.</exception>
+        public async Task<LoggiResponse<LabelResponse>> CriarEtiqueta(List<string> loggiKeys,
+            string layout = LabelLayouts.LayoutA4, string responseType = LabelResponseTypes.Base64)
+        {
+            if (loggiKeys == null || !loggiKeys.Any())
+                throw new ArgumentNullException(nameof(loggiKeys), "Lista de LoggiKeys deve conter ao menos um valor");
+
+            var labelRequest = new LabelRequest()
+            {
+                ResponseType = responseType,
+                Layout = layout,
+                LoggiKeys = loggiKeys
+            };
+
+            var response = await _httpClient.SendPostAsync<LabelResponse>($"v1/companies/{_companyId}/labels",
+                labelRequest, _token);
+
+            return response;
+        }
 
         // TODO: Freight Price Quotation - Medium
 
+        
+        
         // TODO: Packages - Medium
 
         // TODO: Integrador - Medium
-        
+
         // TODO: Loggi Pontos - Medium
-        
+
         // TODO: Janela de Coletas - ez
     }
 }

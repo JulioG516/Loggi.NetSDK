@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Loggi.NetSDK.Models
+namespace Loggi.NetSDK.Models.Authorization
 {
     public class TokenRequest
     {

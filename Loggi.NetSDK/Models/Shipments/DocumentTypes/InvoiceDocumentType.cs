@@ -53,7 +53,7 @@ namespace Loggi.NetSDK.Models.Shipments.DocumentTypes
         /// </summary>
         [Required(ErrorMessage = "Icms é necessario.")]
         [JsonPropertyName("icms")]
-        public string Icms { get; set; } = IcmsTypes.IcmsTaxed;
+        public string Icms { get; set; } = IcmsTypes.Taxed;
 
         [JsonPropertyName("items")] public List<InvoiceItem> Items { get; set; }
 

@@ -2,7 +2,7 @@
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 
-namespace Loggi.NetSDK.Models
+namespace Loggi.NetSDK.Models.Authorization
 {
     /// <summary>
     /// Solicitação e atualização de token.

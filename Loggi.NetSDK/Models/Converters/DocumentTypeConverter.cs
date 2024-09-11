@@ -5,7 +5,7 @@ using Loggi.NetSDK.Models.Shipments.DocumentTypes;
 
 namespace Loggi.NetSDK.Models.Converters
 {
-    public class DocumentTypeConverter : JsonConverter<IDocumentType>
+    internal class DocumentTypeConverter : JsonConverter<IDocumentType>
     {
         public override IDocumentType? Read(ref Utf8JsonReader reader, Type typeToConvert,
             JsonSerializerOptions options)

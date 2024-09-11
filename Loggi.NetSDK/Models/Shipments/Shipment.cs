@@ -31,13 +31,13 @@ namespace Loggi.NetSDK.Models.Shipments
         /// Identificador do tipo de coleta. Por padrão será considerado o valor PICKUP_TYPE_SPOT.
         /// </summary>
         [JsonPropertyName("pickupType")]
-        public string PickupType { get; set; } = PickupTypes.PickupTypeSpot;
+        public string PickupType { get; set; } = PickupTypes.Spot;
 
         /// <summary>
         /// Identificador do tipo de entrega. Por padrão será considerado o valor DELIVERY_TYPE_CUSTOMER_DOOR.
         /// </summary>
         [JsonPropertyName("deliveryType")]
-        public string DeliveryType { get; set; } = DeliveryTypes.DeliveryTypeCustomerDoor;
+        public string DeliveryType { get; set; } = DeliveryTypes.CustomerDoor;
 
         /// <summary>
         /// Pacote associado ao envio. A soma das medidas (altura, largura e comprimento) do pacote não podem passar de 200 cm.

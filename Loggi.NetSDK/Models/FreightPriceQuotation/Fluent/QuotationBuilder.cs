@@ -11,14 +11,13 @@ namespace Loggi.NetSDK.Models.FreightPriceQuotation.Fluent
 
         private QuotationBuilder()
         {
-            
         }
-        
+
         public static ICanSetUse CreateBuilder()
         {
             return new QuotationBuilder();
         }
-        
+
         public ICanSetQuotationProperties UseExternalIds(List<string> ids)
         {
             if (_quotationPickupTypes != null)
@@ -69,12 +68,7 @@ namespace Loggi.NetSDK.Models.FreightPriceQuotation.Fluent
 
             return this;
         }
-
-        // public ICanSetQuotationProperties SetPackages(QuotationPackage packages)
-        // {
-        //     throw new System.NotImplementedException();
-        // }
-
+        
         public ICanSetQuotationProperties AddPackage(QuotationPackage packages)
         {
             if (_quotationPickupTypes != null)
@@ -97,8 +91,8 @@ namespace Loggi.NetSDK.Models.FreightPriceQuotation.Fluent
                 if (_quotationPickupTypes.ShipTo == null)
                     throw new InvalidOperationException("ShipTo é necessario para ser enviado.");
 
-                if (_quotationPickupTypes.Packages.Count == 0)
-                    _quotationPickupTypes.Packages = null;
+                if (_quotationPickupTypes.Packages?.Count == 0)
+                    throw new InvalidOperationException("É necessario ao menos um pacote para ser enviado.");
 
                 return _quotationPickupTypes;
             }
@@ -111,8 +105,9 @@ namespace Loggi.NetSDK.Models.FreightPriceQuotation.Fluent
                 if (_quotationExternalServices.ShipTo == null)
                     throw new InvalidOperationException("ShipTo é necessario para ser enviado.");
 
-                if (_quotationExternalServices.Packages.Count == 0)
-                    _quotationExternalServices.Packages = null;
+                if (_quotationExternalServices.Packages?.Count == 0)
+                    throw new InvalidOperationException("É necessario ao menos um pacote para ser enviado.");
+
 
                 return _quotationExternalServices;
             }

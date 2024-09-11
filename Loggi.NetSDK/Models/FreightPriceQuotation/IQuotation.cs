@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using Loggi.NetSDK.Models.Converters;
 
 namespace Loggi.NetSDK.Models.FreightPriceQuotation
 {
@@ -12,11 +13,13 @@ namespace Loggi.NetSDK.Models.FreightPriceQuotation
     {
         [Required(ErrorMessage = "ShipFrom é necessario.")]
         [JsonPropertyName("shipFrom")]
-        public IQuotationAddress? ShipFrom { get; set; }
+        [JsonConverter(typeof(QuotationAddressConverter))]
+        public IQuotationAddress ShipFrom { get; set; }
 
         [Required(ErrorMessage = "ShipTo é necessario.")]
         [JsonPropertyName("shipTo")]
-        public IQuotationAddress? ShipTo { get; set; }
+        [JsonConverter(typeof(QuotationAddressConverter))]
+        public IQuotationAddress ShipTo { get; set; }
 
         [JsonPropertyName("packages")] public List<QuotationPackage>? Packages { get; set; }
     }

@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 using Loggi.NetSDK.Models;
 using Loggi.NetSDK.Models.Authorization;
 using Loggi.NetSDK.Models.Enums;
+using Loggi.NetSDK.Models.FreightPriceQuotation;
 using Loggi.NetSDK.Models.Helpers;
 using Loggi.NetSDK.Models.Labels;
 using Loggi.NetSDK.Models.Shipments;
 using Loggi.NetSDK.Models.Tracking;
 using Loggi.NetSDK.Models.TrackingDetails;
+using QuotationBuilder = Loggi.NetSDK.Models.FreightPriceQuotation.Fluent.QuotationBuilder;
 
 namespace Loggi.NetSDK
 {
@@ -39,7 +41,8 @@ namespace Loggi.NetSDK
         /// <param name="clientId">Id do cliente cadastrado na Loggi.</param>
         /// <param name="clientSecret">Chave secreta gerada pela Loggi.</param>
         /// <returns>Objeto <see cref="LoggiResponse{T}"/> Podendo conter o <see cref="Token"/> Se obter sucesso.</returns>
-        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentNullException">Quando ClientID é vazio ou nulo.</exception>
+        /// <exception cref="ArgumentNullException">Quando ClientSecret é vazio ou nulo.</exception>
         public async Task<LoggiResponse<Token>> AuthenticateAsync(string clientId, string clientSecret)
         {
             if (string.IsNullOrEmpty(clientId))
@@ -180,11 +183,20 @@ namespace Loggi.NetSDK
 
             return response;
         }
-
-        // TODO: Freight Price Quotation - Medium
-
         
-        
+        public async Task<LoggiResponse<QuotationResponse>> CriarCotacao(Quotation quotation)
+        {
+            if (quotation == null)
+                throw new ArgumentNullException(nameof(quotation), "Quotation não pode ser nulo.");
+
+
+            var response = await _httpClient.SendPostAsync<QuotationResponse>
+                ($"/v1/companies/{_companyId}/quotations", 
+                    quotation, _token);
+
+            return response;
+        }
+
         // TODO: Packages - Medium
 
         // TODO: Integrador - Medium

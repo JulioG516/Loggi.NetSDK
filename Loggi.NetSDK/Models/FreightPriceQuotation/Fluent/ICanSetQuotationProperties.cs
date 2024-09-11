@@ -4,8 +4,7 @@
     {
         public ICanSetQuotationProperties SetShipFrom(IQuotationAddress shipFrom);
         public ICanSetQuotationProperties SetShipTo(IQuotationAddress shipTo);
-        // ICanSetQuotationProperties SetPackages(QuotationPackage packages);
-        ICanSetQuotationProperties AddPackage(QuotationPackage packages);
-        Quotation Build();
+        public ICanSetQuotationProperties AddPackage(QuotationPackage packages);
+        public Quotation Build();
     }
 }

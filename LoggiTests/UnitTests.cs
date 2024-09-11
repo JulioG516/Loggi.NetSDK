@@ -55,6 +55,7 @@ public class Tests
         };
     }
 
+    # region Authentication
 
     [Test]
     public void TestUnauthenticatedClient()
@@ -86,6 +87,10 @@ public class Tests
         Assert.That(data.Error, Is.Null);
         TestContext.WriteLine(data);
     }
+
+    #endregion
+
+    # region Serialization
 
     [Test]
     public void TestPackageDocumentTypeSerialization()
@@ -160,8 +165,12 @@ public class Tests
         TestContext.WriteLine(json);
     }
 
+    #endregion
+
+    # region Shipment
+
     [Test]
-    public void TestInvalidBuilder()
+    public void TestInvalidShipmentBuilder()
     {
         var shipmentBuilder = new ShipmentBuilder();
         shipmentBuilder = shipmentBuilder.SetShipFrom(new ShipFrom()
@@ -190,7 +199,7 @@ public class Tests
     }
 
     [Test]
-    public void TestValidBuilder()
+    public void TestValidShipmentBuilder()
     {
         var shipmentBuilder = new ShipmentBuilder();
         var shipment = shipmentBuilder.SetShipFrom(new ShipFrom()
@@ -391,6 +400,10 @@ public class Tests
         Assert.That(response.Error.Code, Is.EqualTo(EnumErrorCode.FailedPrecondition));
     }
 
+    #endregion
+
+    # region Rastrear Pacote
+
     [Test]
     public void TestInvalidRastrearPacote()
     {
@@ -414,6 +427,8 @@ public class Tests
         Assert.That(response.Error, Is.Null);
         Assert.That(response.Data.Packages, Is.Not.Zero);
     }
+
+    #endregion
 
     # region Etiquetas
 
@@ -455,7 +470,7 @@ public class Tests
     public void TestQuotationsBuilder()
     {
         var quotationPickupTypes = QuotationBuilder.CreateBuilder()
-            .UsePickupTypes(new List<string> { "Type1", "Type2" })
+            .UsePickupTypes(new List<string> { "PICKUP_TYPE_SPOT", "PICKUP_TYPE_DEDICATED" })
             .SetShipFrom(new QuotationAddressCorreios()
             {
                 Correios = new CorreiosAddress()
@@ -536,6 +551,56 @@ public class Tests
         Assert.That(quotationExternalIds, Is.Not.Null);
         Assert.That(quotationExternalIds.ShipTo, Is.Not.Null);
         Assert.That(quotationExternalIds.ShipFrom, Is.Not.Null);
+    }
+
+    [Test]
+    public async Task TestCriarQuotation()
+    {
+        var quotationPickupTypes = QuotationBuilder.CreateBuilder()
+            .UsePickupTypes(new List<string> { "PICKUP_TYPE_SPOT", "PICKUP_TYPE_DEDICATED" })
+            .SetShipFrom(new QuotationAddressCorreios()
+            {
+                Correios = new CorreiosAddress()
+                {
+                    Logradouro = "R. Liberdade",
+                    Cep = "30622580",
+                    Cidade = "Belo Horizonte",
+                    Uf = "MG"
+                }
+            })
+            .SetShipTo(new QuotationAddressCorreios
+            {
+                Correios = new CorreiosAddress()
+                {
+                    Logradouro = "R. Liberdade",
+                    Cep = "30622580",
+                    Cidade = "Belo Horizonte",
+                    Uf = "MG"
+                }
+            })
+            .AddPackage(new QuotationPackage
+            {
+                WeightG = 1200,
+                LengthCm = 55,
+                WidthCm = 55,
+                HeightCm = 100,
+                GoodsValue = new PricingAmount()
+                {
+                    CurrencyCode = "BRL",
+                    Units = "87",
+                    Nanos = 350000000
+                }
+            })
+            .Build();
+
+        TestContext.WriteLine(JsonSerializer.Serialize(quotationPickupTypes, _serializerOptions));
+        
+        var response = await _loggiClient.CriarCotacao(quotationPickupTypes);
+        TestContext.WriteLine(response);
+
+        Assert.That(response.Error, Is.Null);
+        Assert.That(response.Data, Is.Not.Null);
+        Assert.That(response.Data.Quotations, Is.Not.Zero);
     }
 
     #endregion

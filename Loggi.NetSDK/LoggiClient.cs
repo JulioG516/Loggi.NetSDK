@@ -219,10 +219,8 @@ namespace Loggi.NetSDK
             return response;
         }
 
-        // TODO: Packages - Update - Hard
-
-        // TODO: Integrador - Medium
-
+        // TODO: Packages - Update - Medium
+        
         // TODO: Loggi Pontos - Medium
 
         // TODO: Janela de Coletas - ez

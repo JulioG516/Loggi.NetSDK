@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Loggi.NetSDK.Models.Shipments.ShipmentBuilder
+namespace Loggi.NetSDK.Models.Shipments.Fluent
 {
     /// <summary>
     /// ShipmentBuilder para facilitar a criação de objetos <see cref="Shipment"/>

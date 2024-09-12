@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 namespace Loggi.NetSDK.Models.LoggiPontos
 {
     /// <summary>
-    /// Objeto ussado para utilizar a API de LoggiPontos -> Listar Loggi Pontos.
+    /// Objeto ussado para utilizar a API de LoggiPontos -> DropOffLocationsAPI ->  Listar Loggi Pontos.
     /// </summary>
     public class PontosRequest
     {

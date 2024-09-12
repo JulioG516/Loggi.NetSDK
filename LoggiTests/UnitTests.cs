@@ -7,7 +7,7 @@ using Loggi.NetSDK.Models.Package;
 using Loggi.NetSDK.Models.Shipments;
 using Loggi.NetSDK.Models.Shipments.AddressTypes;
 using Loggi.NetSDK.Models.Shipments.DocumentTypes;
-using Loggi.NetSDK.Models.Shipments.ShipmentBuilder;
+using Loggi.NetSDK.Models.Shipments.Fluent;
 using Loggi.NetSDK.Models.TrackingDetails;
 using Microsoft.Extensions.Configuration;
 using QuotationBuilder = Loggi.NetSDK.Models.FreightPriceQuotation.Fluent.QuotationBuilder;
@@ -169,6 +169,75 @@ public class Tests
     #endregion
 
     # region Shipment
+
+    [Test]
+    public void TestFluentShipmentBuilder()
+    {
+        var shipmentBuilder = ShipmentBuilder2.CreateBuilder();
+        shipmentBuilder
+            .SetPickupTypes()
+            .UseDefault()
+            .SetShipFrom(new ShipFrom()
+            {
+                Name = "Jose dos Santos Alvarenga",
+                PhoneNumber = "55119999999999",
+                FederalTaxId = "12345678909",
+                Address = new CorreiosAddressType()
+                {
+                    Instrunctions = "Prédio da Loggi.",
+                    CorreiosAddress = new CorreiosAddress()
+                    {
+                        Logradouro = "R. Liberdade",
+                        Numero = "2400",
+                        Complemento = "apto 42, em frente ao lava-jato",
+                        Bairro = "Bonsucesso",
+                        Cep = "30622580",
+                        Cidade = "Belo Horizonte",
+                        Uf = "MG"
+                    }
+                }
+            }).SetShipTo(new ShipTo()
+            {
+                Name = "Jose dos Santos Alvarenga",
+                Email = "jose.alvarenga@email.com",
+                PhoneNumber = "351911169807",
+                FederalTaxId = "23742246000134",
+                StateTaxId = "123233578",
+                Address = new LineAddressType()
+                {
+                    Instrunctions = "Próximo ao posto.",
+                    LineAddress = new LineAddress()
+                    {
+                        AddressLine1 = "Alameda Santos, 2400 - Jardim Paulista, São Paulo, Brasil",
+                        AddressLine2 = "Alameda Santos, 2800 - Jardim Paulista, São Paulo, Brasil",
+                        PostalCode = "1418200",
+                        City = "São Paulo",
+                        State = "São Paulo",
+                        Country = "Brasil"
+                    }
+                }
+            }).AddPackage(new Package()
+            {
+                WeightG = 250,
+                LengthCm = 50,
+                WidthCm = 50,
+                HeightCm = 25,
+                DocumentTypes = new List<IDocumentType>()
+                {
+                    new InvoiceDocumentType()
+                    {
+                        Invoice = new Invoice()
+                        {
+                            Key = "35200920402853000167550100000013071406204048",
+                            Series = "10",
+                            Number = "1306",
+                            TotalValue = "844.82"
+                        }
+                    }
+                }
+            }).Build();
+    }
+
 
     [Test]
     public void TestInvalidShipmentBuilder()
@@ -669,13 +738,12 @@ public class Tests
             }
         };
 
-        TestContext.WriteLine(JsonSerializer.Serialize(package,_serializerOptions));
+        TestContext.WriteLine(JsonSerializer.Serialize(package, _serializerOptions));
 
         var response = await _loggiClient.AtualizarPacote(package);
-        
+
         Assert.That(response.Error, Is.Null);
         Assert.That(response.Data, Is.True);
-
     }
 
     #endregion

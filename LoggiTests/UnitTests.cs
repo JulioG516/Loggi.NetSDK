@@ -3,6 +3,7 @@ using System.Text.Json.Serialization;
 using Loggi.NetSDK;
 using Loggi.NetSDK.Models.Addresses;
 using Loggi.NetSDK.Models.FreightPriceQuotation;
+using Loggi.NetSDK.Models.LoggiPontos;
 using Loggi.NetSDK.Models.Package;
 using Loggi.NetSDK.Models.Shipments;
 using Loggi.NetSDK.Models.Shipments.AddressTypes;
@@ -753,6 +754,26 @@ public class Tests
 
         Assert.That(response.Error, Is.Null);
         Assert.That(response.Data, Is.True);
+    }
+
+    #endregion
+
+    #region Loggi Pontos
+
+    [Test]
+    public async Task TestLoggiPontos()
+    {
+        var response = await _loggiClient.ListarLoggiPontos(new PontosRequest()
+        {
+            Categories = new List<string> { "mg" },
+            State = "Minas Gerais",
+            PostalCode = "05407002"
+        });
+
+
+
+        Assert.That(response.Error, Is.Null);
+        Assert.That(response.Data, Is.Not.Null);
     }
 
     #endregion

@@ -10,7 +10,7 @@ namespace Loggi.NetSDK.Models
     public class LoggiResponse<T>
     {
         /// <summary>
-        /// Os dados definido na API, é nulo quando há uma falha.
+        /// Os dados definido na API, é null quando há uma falha.
         /// </summary>
         public T Data { get; set; }
 

@@ -10,6 +10,7 @@ using Loggi.NetSDK.Models.Enums;
 using Loggi.NetSDK.Models.FreightPriceQuotation;
 using Loggi.NetSDK.Models.Helpers;
 using Loggi.NetSDK.Models.Labels;
+using Loggi.NetSDK.Models.LoggiPontos;
 using Loggi.NetSDK.Models.Package;
 using Loggi.NetSDK.Models.Shipments;
 using Loggi.NetSDK.Models.Tracking;
@@ -50,15 +51,15 @@ namespace Loggi.NetSDK
         /// <param name="clientId">Id do cliente cadastrado na Loggi.</param>
         /// <param name="clientSecret">Chave secreta gerada pela Loggi.</param>
         /// <returns>Objeto <see cref="LoggiResponse{T}"/> Podendo conter o <see cref="Token"/> Se obter sucesso.</returns>
-        /// <exception cref="ArgumentNullException">Quando ClientID é vazio ou nulo.</exception>
-        /// <exception cref="ArgumentNullException">Quando ClientSecret é vazio ou nulo.</exception>
+        /// <exception cref="ArgumentNullException">Quando ClientID é vazio ou null.</exception>
+        /// <exception cref="ArgumentNullException">Quando ClientSecret é vazio ou null.</exception>
         public async Task<LoggiResponse<Token>> AuthenticateAsync(string clientId, string clientSecret)
         {
             if (string.IsNullOrEmpty(clientId))
-                throw new ArgumentNullException(nameof(clientId), "clientID não pode ser nulo ou vazio.");
+                throw new ArgumentNullException(nameof(clientId), "clientID não pode ser null ou vazio.");
 
             if (string.IsNullOrEmpty(clientSecret))
-                throw new ArgumentNullException(nameof(clientSecret), "clientSecret não pode ser nulo ou vazio.");
+                throw new ArgumentNullException(nameof(clientSecret), "clientSecret não pode ser null ou vazio.");
 
             var response = await _httpClient.GetToken(new TokenRequest()
             {
@@ -82,19 +83,19 @@ namespace Loggi.NetSDK
         /// </summary>
         /// <param name="shipment">Objeto <see cref="Shipment"/> obtido a partir de um builder.</param>
         /// <returns>Um objeto <see cref="LoggiResponse{T}"/> Contendo <see cref="ShipmentResponse"/> Se obter sucesso.</returns>
-        /// <exception cref="ArgumentNullException">Quando shipment é nulo.</exception>
-        /// <exception cref="ArgumentNullException">Quando shipment.ShipTo é nulo.</exception>
-        /// <exception cref="ArgumentNullException">Quando shipment.ShipFrom é nulo.</exception>
-        /// <exception cref="ArgumentNullException">Quando shipment.Packages é nulo ou vazio.</exception>
+        /// <exception cref="ArgumentNullException">Quando shipment é null.</exception>
+        /// <exception cref="ArgumentNullException">Quando shipment.ShipTo é null.</exception>
+        /// <exception cref="ArgumentNullException">Quando shipment.ShipFrom é null.</exception>
+        /// <exception cref="ArgumentNullException">Quando shipment.Packages é null ou vazio.</exception>
         /// <exception cref="InvalidOperationException">Quando não autenticado.</exception>
         public async Task<LoggiResponse<ShipmentResponse>> CriarShipmentAsync(Shipment shipment)
         {
             if (shipment == null)
-                throw new ArgumentNullException(nameof(shipment), "Shipment nâo pode ser nulo.");
+                throw new ArgumentNullException(nameof(shipment), "Shipment nâo pode ser null.");
             if (shipment.ShipTo != null)
-                throw new ArgumentNullException(nameof(shipment.ShipTo), "ShipTo em Shipment não pode ser nulo.");
+                throw new ArgumentNullException(nameof(shipment.ShipTo), "ShipTo em Shipment não pode ser null.");
             if (shipment.ShipFrom != null)
-                throw new ArgumentNullException(nameof(shipment.ShipFrom), "ShipFrom em Shipment não pode ser nulo.");
+                throw new ArgumentNullException(nameof(shipment.ShipFrom), "ShipFrom em Shipment não pode ser null.");
             if (shipment.Packages == null || !shipment.Packages.Any())
                 throw new ArgumentNullException(nameof(shipment.Packages), "Packages deve conter ao menos um valor.");
 
@@ -111,12 +112,12 @@ namespace Loggi.NetSDK
         /// </summary>
         /// <param name="trackingCode">O codigo de rastreio do pacote</param>
         /// <returns>Um objeto <see cref="LoggiResponse{T}"/> Contendo <see cref="TrackingResponse"/> Se obter sucesso.</returns>
-        /// <exception cref="ArgumentNullException">Quando trackingCode é nulo ou vazio.</exception>
+        /// <exception cref="ArgumentNullException">Quando trackingCode é null ou vazio.</exception>
         /// <exception cref="InvalidOperationException">Quando não autenticado.</exception>
         public async Task<LoggiResponse<TrackingResponse>> RastrearPacote(string trackingCode)
         {
             if (string.IsNullOrEmpty(trackingCode))
-                throw new ArgumentNullException(nameof(trackingCode), "Tracking Code não pode ser nulo ou vazio.");
+                throw new ArgumentNullException(nameof(trackingCode), "Tracking Code não pode ser null ou vazio.");
 
             var response = await _httpClient.SendGetJsonAsync<TrackingResponse>
                 ($"v1/companies/{_companyId}/packages/{trackingCode}/tracking", _token);
@@ -129,12 +130,12 @@ namespace Loggi.NetSDK
         /// </summary>
         /// <param name="trackingCode">O codigo de rastreio do pacote</param>
         /// <returns>Um objeto <see cref="LoggiResponse{T}"/> Contendo <see cref="TrackingDetailsResponse"/> Se obter sucesso.</returns>
-        /// <exception cref="ArgumentNullException">Quando trackingCode é nulo ou vazio.</exception>
+        /// <exception cref="ArgumentNullException">Quando trackingCode é null ou vazio.</exception>
         /// <exception cref="InvalidOperationException">Quando não autenticado.</exception>
         public async Task<LoggiResponse<TrackingDetailsResponse>> RastrearPacoteDetalhado(string trackingCode)
         {
             if (string.IsNullOrEmpty(trackingCode))
-                throw new ArgumentNullException(nameof(trackingCode), "Tracking Code não pode ser nulo ou vazio.");
+                throw new ArgumentNullException(nameof(trackingCode), "Tracking Code não pode ser null ou vazio.");
 
             var response = await _httpClient.SendGetJsonAsync<TrackingDetailsResponse>
                 ($"v1/companies/{_companyId}/packages/{trackingCode}", _token);
@@ -202,11 +203,11 @@ namespace Loggi.NetSDK
         /// </summary>
         /// <param name="quotation">Objeto Quotation que pode ser criado com um <see cref="QuotationBuilder"/></param>
         /// <returns><see cref="LoggiResponse{T}"/> com objeto <see cref="QuotationResponse"/> Quando há sucesso.</returns>
-        /// <exception cref="ArgumentNullException">Quqando a quotation ter valor nulo.</exception>
+        /// <exception cref="ArgumentNullException">Quqando a quotation ter valor null.</exception>
         public async Task<LoggiResponse<QuotationResponse>> CriarCotacao(Quotation quotation)
         {
             if (quotation == null)
-                throw new ArgumentNullException(nameof(quotation), "Quotation não pode ser nulo.");
+                throw new ArgumentNullException(nameof(quotation), "Quotation não pode ser null.");
 
 
             var response = await _httpClient.SendPostAsync<QuotationResponse>
@@ -248,16 +249,15 @@ namespace Loggi.NetSDK
         /// É possível alterar as informações do destinatário, desde que o status do pacote não esteja como entregue, cancelado ou extraviado.
         /// </summary>
         /// <param name="packageUpdate"></param>
-        /// <returns></returns>
-        /// <exception cref="InvalidOperationException"></exception>
-        /// <exception cref="InvalidDataException"></exception>
+        /// <returns><see cref="LoggiResponse{T}"/>Valor booleano como resposta da Loggi.</returns>
+        /// <exception cref="InvalidOperationException">Quando PackageUpdate esta é null ou PackageUpdate.ShipTo é null.</exception>
         public async Task<LoggiResponse<bool>> AtualizarPacote(PackageUpdate packageUpdate)
         {
             if (packageUpdate == null)
-                throw new InvalidOperationException("Package update não pode ser nulo.");
+                throw new InvalidOperationException("Package update não pode ser null.");
 
             if (packageUpdate.ShipTo == null)
-                throw new InvalidDataException(
+                throw new InvalidOperationException(
                     "O ShipTo deve está dentro do PackageUpdate para que possa ser atualizado com sucesso,");
 
             var response = await _httpClient.SendPostAsyncBoolResponse
@@ -266,8 +266,27 @@ namespace Loggi.NetSDK
             return response;
         }
 
-        // TODO: Loggi Pontos - Medium
+        /// <summary>
+        /// Lista os Loggi Pontos disponíveis para dropoff.
+        /// </summary>
+        /// <param name="pontosRequest"></param>
+        /// <returns><see cref="LoggiResponse{T}"/> Contendo um <see cref="PontosResponse"/> se obter sucesso.</returns>
+        /// <exception cref="InvalidOperationException">Quando pontosRequest é null ou não possui categorias.</exception>
+        public async Task<LoggiResponse<PontosResponse>> ListarLoggiPontos(PontosRequest pontosRequest)
+        {
+            if (pontosRequest == null)
+                throw new InvalidOperationException("PontosRequest não pode ser null.");
 
-        // TODO: Janela de Coletas - ez
+            if (!pontosRequest.Categories.Any())
+                throw new InvalidOperationException("Categorias no PontosRequest deve conter ao menos um valor.");
+
+            var response = await _httpClient.SendPostAsync<PontosResponse>
+                ("/dropoff/locations", pontosRequest, _token);
+
+            return response;
+        }
+
+
+        // TODO: Janela de Coletas 
     }
 }

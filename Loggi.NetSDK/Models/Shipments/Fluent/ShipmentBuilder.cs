@@ -1,128 +1,153 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Loggi.NetSDK.Models.Enums;
 
 namespace Loggi.NetSDK.Models.Shipments.Fluent
 {
     /// <summary>
-    /// ShipmentBuilder para facilitar a criação de objetos <see cref="Shipment"/>
+    /// ShipmentBuilder para facilitar a criação de objetos através da FluentAPI. <see cref="Shipment"/>
     /// </summary>
-    public class ShipmentBuilder
+    public class ShipmentBuilder : ICanSetShipmentPickupType, ICanSetShipmentProperties, ICanUseShipmentPickupType,
+        ICanSetShipmentDeliveryType
     {
-        private readonly Shipment _shipment;
+        private Shipment _shipment;
 
         private ShipmentBuilder()
         {
-            _shipment = new Shipment
+            _shipment = new Shipment()
             {
                 Packages = new List<Package>()
             };
         }
 
         /// <summary>
-        /// Retorna um ShipmentBuilder
+        /// Cria uma nova instancia do ShipmentBuilder
         /// </summary>
-        /// <returns><see cref="ShipmentBuilder"/></returns>
-        public static ShipmentBuilder CreateBuilder()
+        /// <returns>Objeto <see cref="ShipmentBuilder"/></returns>
+        public static ICanSetShipmentPickupType CreateBuilder()
         {
             return new ShipmentBuilder();
         }
 
-        /// <summary>
-        /// Seta o ShipFrom no Shipment que está sendo criado.
-        /// </summary>
-        /// <param name="shipFrom"></param>
-        /// <returns></returns>
-        public ShipmentBuilder SetShipFrom(ShipFrom shipFrom)
+
+        /// <inheritdoc />
+        public ICanUseShipmentPickupType SetPickupTypes()
+        {
+            return this;
+        }
+
+        /// <inheritdoc />
+        public ICanSetShipmentProperties UseSpot()
+        {
+            _shipment.PickupType = PickupTypes.Spot;
+            return this;
+        }
+
+        /// <inheritdoc />
+        public ICanSetShipmentProperties UseDefault()
+        {
+            _shipment.PickupType = PickupTypes.Spot;
+            return this;
+        }
+
+        /// <inheritdoc />
+        public ICanSetShipmentProperties UseDedicated()
+        {
+            _shipment.PickupType = PickupTypes.Dedicated;
+            return this;
+        }
+
+        /// <inheritdoc />
+        public ICanSetShipmentProperties UseDropoff()
+        {
+            _shipment.PickupType = PickupTypes.DropOff;
+            return this;
+        }
+
+        /// <inheritdoc />
+        public ICanSetShipmentProperties UseMilkRun()
+        {
+            _shipment.PickupType = PickupTypes.MilkRun;
+            return this;
+        }
+
+        /// <inheritdoc />
+        public ICanSetShipmentProperties UseCrossBorder()
+        {
+            _shipment.PickupType = PickupTypes.CrossBorder;
+            return this;
+        }
+
+
+        /// <inheritdoc />
+        public ICanSetShipmentProperties SetExternalId(string id)
+        {
+            _shipment.ExternalServiceId = id;
+            return this;
+        }
+
+        /// <inheritdoc />
+        public ICanSetShipmentProperties SetShipFrom(ShipFrom shipFrom)
         {
             _shipment.ShipFrom = shipFrom;
             return this;
         }
 
-        /// <summary>
-        /// Seta o ShipTo no Shipment que esta sendo criado.
-        /// </summary>
-        /// <param name="shipTo"></param>
-        /// <returns></returns>
-        public ShipmentBuilder SetShipTo(ShipTo shipTo)
+        /// <inheritdoc />
+        public ICanSetShipmentProperties SetShipTo(ShipTo shipTo)
         {
             _shipment.ShipTo = shipTo;
             return this;
         }
 
-        /// <summary>
-        /// Seta o ShippingCompany no Shipment que esta sendo criado.
-        /// </summary>
-        /// <param name="shippingCompany"></param>
-        /// <returns></returns>
-        public ShipmentBuilder SetShippingCompany(ShippingCompany shippingCompany)
+        /// <inheritdoc />
+        public ICanSetShipmentProperties SetShippingCompany(ShippingCompany shippingCompany)
         {
             _shipment.ShippingCompany = shippingCompany;
             return this;
         }
 
-        /// <summary>
-        /// Seta o PickupTypes no Shipment que esta sendo criado.
-        /// </summary>
-        /// <param name="pickupType"></param>
-        /// <returns></returns>
-        public ShipmentBuilder SetPickupType(string pickupType)
+        /// <inheritdoc />
+        public ICanSetShipmentDeliveryType SetDeliveryType()
         {
-            _shipment.PickupType = pickupType;
-            return this;
-        }
-
-        /// <summary>
-        /// Seta o DeliveryType no Shipment queta sendo criado.
-        /// </summary>
-        /// <param name="deliveryType"></param>
-        /// <returns></returns>
-        public ShipmentBuilder SetDeliveryType(string deliveryType)
-        {
-            _shipment.DeliveryType = deliveryType;
             return this;
         }
 
 
-        /// <summary>
-        /// Adiciona um package na lista de packages no Shipment que esta sendo criado.
-        /// </summary>
-        /// <param name="package"></param>
-        /// <returns></returns>
-        public ShipmentBuilder AddPackage(Package package)
+        /// <inheritdoc />
+        public ICanSetShipmentProperties CustomerDoor()
+        {
+            _shipment.DeliveryType = DeliveryTypes.CustomerDoor;
+            return this;
+        }
+
+        /// <inheritdoc />
+        public ICanSetShipmentProperties CrossDocking()
+        {
+            _shipment.DeliveryType = DeliveryTypes.CrossDocking;
+            return this;
+        }
+
+
+        /// <inheritdoc />
+        public ICanSetShipmentProperties AddPackage(Package package)
         {
             _shipment.Packages.Add(package);
             return this;
         }
 
-        /// <summary>
-        /// Seta o valor de ExternalServicesIds, utilizar este ou PickupTypes.
-        /// </summary>
-        /// <param name="externalServiceId"></param>
-        /// <returns></returns>
-        public ShipmentBuilder SetExternalServiceId(string? externalServiceId)
-        {
-            _shipment.ExternalServiceId = externalServiceId;
-            return this;
-        }
-
-        /// <summary>
-        /// Constroi o objeto Shipment
-        /// </summary>
-        /// <returns></returns>
-        /// <exception cref="InvalidOperationException"></exception>
+        /// <inheritdoc />
         public Shipment Build()
         {
-            // Valida os campos com Required.
             if (_shipment.ShipFrom == null)
-                throw new InvalidOperationException("ShipFrom é necessario para ser montado.");
+                throw new InvalidOperationException("ShipFrom não pode ser null.");
 
             if (_shipment.ShipTo == null)
-                throw new InvalidOperationException("ShipTo é necessario para ser montado.");
+                throw new InvalidOperationException("ShipTo não pode ser null.");
 
-            if (_shipment.Packages == null || !_shipment.Packages.Any())
-                throw new InvalidOperationException("Ao menos um pacote é necessario para ser montado.");
-
+            if (!_shipment.Packages.Any())
+                throw new InvalidOperationException("Packages deve conter ao menos um valor.");
 
             return _shipment;
         }

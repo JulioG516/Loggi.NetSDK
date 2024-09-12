@@ -173,7 +173,7 @@ public class Tests
     [Test]
     public void TestFluentShipmentBuilder()
     {
-        var shipmentBuilder = ShipmentBuilder2.CreateBuilder();
+        var shipmentBuilder = ShipmentBuilder.CreateBuilder();
         shipmentBuilder
             .SetPickupTypes()
             .UseDefault()
@@ -242,27 +242,29 @@ public class Tests
     [Test]
     public void TestInvalidShipmentBuilder()
     {
-        var shipmentBuilder = ShipmentBuilder.CreateBuilder();
-        shipmentBuilder = shipmentBuilder.SetShipFrom(new ShipFrom()
-        {
-            Name = "Jose dos Santos Alvarenga",
-            PhoneNumber = "55119999999999",
-            FederalTaxId = "12345678909",
-            Address = new CorreiosAddressType()
+        var shipmentBuilder = ShipmentBuilder.CreateBuilder()
+            .SetPickupTypes()
+            .UseDefault()
+            .SetShipFrom(new ShipFrom()
             {
-                Instrunctions = "Prédio da Loggi.",
-                CorreiosAddress = new CorreiosAddress()
+                Name = "Jose dos Santos Alvarenga",
+                PhoneNumber = "55119999999999",
+                FederalTaxId = "12345678909",
+                Address = new CorreiosAddressType()
                 {
-                    Logradouro = "R. Liberdade",
-                    Numero = "2400",
-                    Complemento = "apto 42, em frente ao lava-jato",
-                    Bairro = "Bonsucesso",
-                    Cep = "30622580",
-                    Cidade = "Belo Horizonte",
-                    Uf = "MG"
+                    Instrunctions = "Prédio da Loggi.",
+                    CorreiosAddress = new CorreiosAddress()
+                    {
+                        Logradouro = "R. Liberdade",
+                        Numero = "2400",
+                        Complemento = "apto 42, em frente ao lava-jato",
+                        Bairro = "Bonsucesso",
+                        Cep = "30622580",
+                        Cidade = "Belo Horizonte",
+                        Uf = "MG"
+                    }
                 }
-            }
-        });
+            }).AddPackage(new Package());
 
         // Assert that an InvalidOperationException is thrown
         Assert.Throws<InvalidOperationException>(() => shipmentBuilder.Build());
@@ -272,65 +274,68 @@ public class Tests
     public void TestValidShipmentBuilder()
     {
         var shipmentBuilder = ShipmentBuilder.CreateBuilder();
-        var shipment = shipmentBuilder.SetShipFrom(new ShipFrom()
-        {
-            Name = "Jose dos Santos Alvarenga",
-            PhoneNumber = "55119999999999",
-            FederalTaxId = "12345678909",
-            Address = new CorreiosAddressType()
+        var shipment = shipmentBuilder
+            .SetPickupTypes()
+            .UseDefault()
+            .SetShipFrom(new ShipFrom()
             {
-                Instrunctions = "Prédio da Loggi.",
-                CorreiosAddress = new CorreiosAddress()
+                Name = "Jose dos Santos Alvarenga",
+                PhoneNumber = "55119999999999",
+                FederalTaxId = "12345678909",
+                Address = new CorreiosAddressType()
                 {
-                    Logradouro = "R. Liberdade",
-                    Numero = "2400",
-                    Complemento = "apto 42, em frente ao lava-jato",
-                    Bairro = "Bonsucesso",
-                    Cep = "30622580",
-                    Cidade = "Belo Horizonte",
-                    Uf = "MG"
-                }
-            }
-        }).SetShipTo(new ShipTo()
-        {
-            Name = "Jose dos Santos Alvarenga",
-            Email = "jose.alvarenga@email.com",
-            PhoneNumber = "351911169807",
-            FederalTaxId = "23742246000134",
-            StateTaxId = "123233578",
-            Address = new LineAddressType()
-            {
-                Instrunctions = "Próximo ao posto.",
-                LineAddress = new LineAddress()
-                {
-                    AddressLine1 = "Alameda Santos, 2400 - Jardim Paulista, São Paulo, Brasil",
-                    AddressLine2 = "Alameda Santos, 2800 - Jardim Paulista, São Paulo, Brasil",
-                    PostalCode = "1418200",
-                    City = "São Paulo",
-                    State = "São Paulo",
-                    Country = "Brasil"
-                }
-            }
-        }).AddPackage(new Package()
-        {
-            WeightG = 250,
-            LengthCm = 50,
-            WidthCm = 50,
-            HeightCm = 25,
-            DocumentTypes = new List<IDocumentType>()
-            {
-                new InvoiceDocumentType()
-                {
-                    Invoice = new Invoice()
+                    Instrunctions = "Prédio da Loggi.",
+                    CorreiosAddress = new CorreiosAddress()
                     {
-                        Key = "35200920402853000167550100000013071406204048",
-                        Series = "10",
-                        Number = "1306",
-                        TotalValue = "844.82"
+                        Logradouro = "R. Liberdade",
+                        Numero = "2400",
+                        Complemento = "apto 42, em frente ao lava-jato",
+                        Bairro = "Bonsucesso",
+                        Cep = "30622580",
+                        Cidade = "Belo Horizonte",
+                        Uf = "MG"
                     }
                 }
-            }
-        }).Build();
+            }).SetShipTo(new ShipTo()
+            {
+                Name = "Jose dos Santos Alvarenga",
+                Email = "jose.alvarenga@email.com",
+                PhoneNumber = "351911169807",
+                FederalTaxId = "23742246000134",
+                StateTaxId = "123233578",
+                Address = new LineAddressType()
+                {
+                    Instrunctions = "Próximo ao posto.",
+                    LineAddress = new LineAddress()
+                    {
+                        AddressLine1 = "Alameda Santos, 2400 - Jardim Paulista, São Paulo, Brasil",
+                        AddressLine2 = "Alameda Santos, 2800 - Jardim Paulista, São Paulo, Brasil",
+                        PostalCode = "1418200",
+                        City = "São Paulo",
+                        State = "São Paulo",
+                        Country = "Brasil"
+                    }
+                }
+            }).AddPackage(new Package()
+            {
+                WeightG = 250,
+                LengthCm = 50,
+                WidthCm = 50,
+                HeightCm = 25,
+                DocumentTypes = new List<IDocumentType>()
+                {
+                    new InvoiceDocumentType()
+                    {
+                        Invoice = new Invoice()
+                        {
+                            Key = "35200920402853000167550100000013071406204048",
+                            Series = "10",
+                            Number = "1306",
+                            TotalValue = "844.82"
+                        }
+                    }
+                }
+            }).Build();
 
         Assert.That(shipment, Is.Not.Null);
     }
@@ -340,66 +345,68 @@ public class Tests
     [Ignore(reason: "Para não criar diversos shipments enviando a loggi.")]
     public async Task TestSendValidShipment()
     {
-        var shipmentBuilder = ShipmentBuilder.CreateBuilder();
-        var shipment = shipmentBuilder.SetShipFrom(new ShipFrom()
-        {
-            Name = "Jose dos Santos Alvarenga",
-            PhoneNumber = "55119999999999",
-            FederalTaxId = "12345678909",
-            Address = new CorreiosAddressType()
+        var shipment = ShipmentBuilder.CreateBuilder()
+            .SetPickupTypes()
+            .UseDefault()
+            .SetShipFrom(new ShipFrom()
             {
-                Instrunctions = "Prédio da Loggi.",
-                CorreiosAddress = new CorreiosAddress()
+                Name = "Jose dos Santos Alvarenga",
+                PhoneNumber = "55119999999999",
+                FederalTaxId = "12345678909",
+                Address = new CorreiosAddressType()
                 {
-                    Logradouro = "R. Liberdade",
-                    Numero = "2400",
-                    Complemento = "apto 42, em frente ao lava-jato",
-                    Bairro = "Bonsucesso",
-                    Cep = "30622580",
-                    Cidade = "Belo Horizonte",
-                    Uf = "MG"
-                }
-            }
-        }).SetShipTo(new ShipTo()
-        {
-            Name = "Jose dos Santos Alvarenga",
-            Email = "jose.alvarenga@email.com",
-            PhoneNumber = "351911169807",
-            FederalTaxId = "23742246000134",
-            StateTaxId = "123233578",
-            Address = new LineAddressType()
-            {
-                Instrunctions = "Próximo ao posto.",
-                LineAddress = new LineAddress()
-                {
-                    AddressLine1 = "Alameda Santos, 2400 - Jardim Paulista, São Paulo, Brasil",
-                    AddressLine2 = "Alameda Santos, 2800 - Jardim Paulista, São Paulo, Brasil",
-                    PostalCode = "14182000",
-                    City = "São Paulo",
-                    State = "São Paulo",
-                    Country = "Brasil"
-                }
-            }
-        }).AddPackage(new Package()
-        {
-            WeightG = 250,
-            LengthCm = 50,
-            WidthCm = 50,
-            HeightCm = 25,
-            DocumentTypes = new List<IDocumentType>()
-            {
-                new InvoiceDocumentType()
-                {
-                    Invoice = new Invoice()
+                    Instrunctions = "Prédio da Loggi.",
+                    CorreiosAddress = new CorreiosAddress()
                     {
-                        Key = "35200920402853000167550100000013071406204048",
-                        Series = "10",
-                        Number = "1306",
-                        TotalValue = "844.82"
+                        Logradouro = "R. Liberdade",
+                        Numero = "2400",
+                        Complemento = "apto 42, em frente ao lava-jato",
+                        Bairro = "Bonsucesso",
+                        Cep = "30622580",
+                        Cidade = "Belo Horizonte",
+                        Uf = "MG"
                     }
                 }
-            }
-        }).Build();
+            }).SetShipTo(new ShipTo()
+            {
+                Name = "Jose dos Santos Alvarenga",
+                Email = "jose.alvarenga@email.com",
+                PhoneNumber = "351911169807",
+                FederalTaxId = "23742246000134",
+                StateTaxId = "123233578",
+                Address = new LineAddressType()
+                {
+                    Instrunctions = "Próximo ao posto.",
+                    LineAddress = new LineAddress()
+                    {
+                        AddressLine1 = "Alameda Santos, 2400 - Jardim Paulista, São Paulo, Brasil",
+                        AddressLine2 = "Alameda Santos, 2800 - Jardim Paulista, São Paulo, Brasil",
+                        PostalCode = "14182000",
+                        City = "São Paulo",
+                        State = "São Paulo",
+                        Country = "Brasil"
+                    }
+                }
+            }).AddPackage(new Package()
+            {
+                WeightG = 250,
+                LengthCm = 50,
+                WidthCm = 50,
+                HeightCm = 25,
+                DocumentTypes = new List<IDocumentType>()
+                {
+                    new InvoiceDocumentType()
+                    {
+                        Invoice = new Invoice()
+                        {
+                            Key = "35200920402853000167550100000013071406204048",
+                            Series = "10",
+                            Number = "1306",
+                            TotalValue = "844.82"
+                        }
+                    }
+                }
+            }).Build();
 
         var json = JsonSerializer.Serialize(shipment, _serializerOptions);
         TestContext.WriteLine(json);
@@ -420,7 +427,9 @@ public class Tests
     {
         // Sends with an empty ShipFrom 
         var shipmentBuilder = ShipmentBuilder.CreateBuilder();
-        var shipment = shipmentBuilder.SetShipFrom(new ShipFrom())
+        var shipment = shipmentBuilder
+            .SetPickupTypes()
+            .UseDefault().SetShipFrom(new ShipFrom())
             .SetShipTo(new ShipTo()
             {
                 Name = "Jose dos Santos Alvarenga",

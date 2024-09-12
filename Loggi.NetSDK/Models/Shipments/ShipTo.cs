@@ -51,6 +51,7 @@ namespace Loggi.NetSDK.Models.Shipments
         [MinLength(0)]
         [MaxLength(16)]
         [JsonPropertyName("stateTaxId")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string StateTaxId { get; set; }
 
         /// <summary>

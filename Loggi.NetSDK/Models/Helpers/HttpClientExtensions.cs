@@ -70,6 +70,50 @@ namespace Loggi.NetSDK.Models.Helpers
         }
 
 
+        internal static async Task<LoggiResponse<bool>> SendPostAsyncBoolResponse(this HttpClient httpClient,
+            string url, object? body, Token token)
+        {
+            // Serialize the body to JSON
+
+            if (token == null || string.IsNullOrEmpty(token.IdToken))
+                throw new InvalidOperationException(
+                    "Você precisa autenticar primeiro, usando o método LoggiClient.AuthenticateAsync");
+
+            if (string.IsNullOrEmpty(url))
+                throw new InvalidOperationException("Url não fornecido.");
+
+
+            HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Post,
+                url);
+
+
+            if (body != null)
+            {
+                var jsonBody = JsonSerializer.Serialize(body);
+                requestMessage.Content = new StringContent(jsonBody, System.Text.Encoding.UTF8, "application/json");
+            }
+
+            requestMessage.Headers.Add("authorization", $"Bearer {token.IdToken}");
+
+            var response = await httpClient.SendAsync(requestMessage);
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                return new LoggiResponse<bool>
+                {
+                    Data = true
+                };
+            }
+            else
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                return new LoggiResponse<bool>
+                {
+                    Error = JsonSerializer.Deserialize<ErrorResponse>(json)
+                };
+            }
+        }
+
         internal static async Task<LoggiResponse<T>> SendPostAsync<T>(this HttpClient httpClient,
             string url, object? body, Token token)
             where T : class

@@ -3,6 +3,7 @@ using System.Text.Json.Serialization;
 using Loggi.NetSDK;
 using Loggi.NetSDK.Models.Addresses;
 using Loggi.NetSDK.Models.FreightPriceQuotation;
+using Loggi.NetSDK.Models.Package;
 using Loggi.NetSDK.Models.Shipments;
 using Loggi.NetSDK.Models.Shipments.AddressTypes;
 using Loggi.NetSDK.Models.Shipments.DocumentTypes;
@@ -605,7 +606,7 @@ public class Tests
 
     #endregion
 
-    #region Editar Pacotes
+    #region Cancelar Pacotes
 
     [Test]
     public async Task TestCancelarPedidoJaCanceladoWithTrackingCode()
@@ -635,9 +636,46 @@ public class Tests
     }
 
     [Test]
-    public  void TestInvalidCancelarPedido()
+    public void TestInvalidCancelarPedido()
     {
-        Assert.ThrowsAsync<InvalidOperationException>(async () => { await _loggiClient.CancelarPacote("", "");});
+        Assert.ThrowsAsync<InvalidOperationException>(async () => { await _loggiClient.CancelarPacote("", ""); });
+    }
+
+    #endregion
+
+    # region Editar Pacotes
+
+    [Test]
+    [Ignore(reason: "Loggi devolve um erro com autenticação falha, mesmo estando correto.")]
+    public async Task TestAtualizarPacote()
+    {
+        var package = new PackageUpdate()
+        {
+            ShipTo = new ShipTo()
+            {
+                Name = "Maria Lucia",
+                PhoneNumber = "11998765432",
+                FederalTaxId = "12345678911",
+                Address = new CorreiosAddressType()
+                {
+                    CorreiosAddress = new CorreiosAddress()
+                    {
+                        Logradouro = "Pacífico Mascarenhas",
+                        Numero = "S/N",
+                        Bairro = "Centro",
+                        Cidade = "Baldim"
+                    }
+                }
+            }
+        };
+
+        TestContext.WriteLine(JsonSerializer.Serialize(package,_serializerOptions));
+
+        var response = await _loggiClient.AtualizarPacote(package);
+        
+        Assert.That(response.Error, Is.Null);
+        Assert.That(response.Data, Is.True);
+
     }
 
     #endregion

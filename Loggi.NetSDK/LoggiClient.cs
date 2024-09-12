@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -220,7 +221,22 @@ namespace Loggi.NetSDK
         }
 
         // TODO: Packages - Update - Medium
+        public async Task<LoggiResponse<bool>> AtualizarPacote(PackageUpdate packageUpdate)
+        {
+            if (packageUpdate == null)
+                throw new InvalidOperationException("Package update não pode ser nulo.");
+
+            if (packageUpdate.ShipTo == null)
+                throw new InvalidDataException(
+                    "O ShipTo deve está dentro do PackageUpdate para que possa ser atualizado com sucesso,");
+
+            var response = await _httpClient.SendPostAsyncBoolResponse
+                           ($"v1/companies/{_companyId}/packages", packageUpdate, _token);
+
+            return response;
+        }
         
+
         // TODO: Loggi Pontos - Medium
 
         // TODO: Janela de Coletas - ez

@@ -14,17 +14,17 @@ namespace Loggi.NetSDK.Models.Converters
             {
                 if (doc.RootElement.TryGetProperty("correios", out _))
                 {
-                    return JsonSerializer.Deserialize<QuotationAddressCorreios>(doc.RootElement.GetRawText(), options);
+                    return JsonSerializer.Deserialize<QuotationAddressCorreios>(doc.RootElement.GetRawText(), options)!;
                 }
 
                 if (doc.RootElement.TryGetProperty("lines", out _))
                 {
-                    return JsonSerializer.Deserialize<QuotationAddressLine>(doc.RootElement.GetRawText(), options);
+                    return JsonSerializer.Deserialize<QuotationAddressLine>(doc.RootElement.GetRawText(), options)!;
                 }
 
                 if (doc.RootElement.TryGetProperty("widget", out _))
                 {
-                    return JsonSerializer.Deserialize<QuotationAddressWidget>(doc.RootElement.GetRawText(), options);
+                    return JsonSerializer.Deserialize<QuotationAddressWidget>(doc.RootElement.GetRawText(), options)!;
                 }
 
                 throw new JsonException("Unknown IQuotationAddress type.");

@@ -204,23 +204,36 @@ namespace Loggi.NetSDK
         /// Se o pacote estiver no status Saiu para entrega ou com os Correios, vamos tentar cancelar o envio, mas não garantimos que dê certo. Nesses casos, a API retorna uma mensagem de aviso.
         /// Você consegue consultar a lista de status clicando aqui.
         /// </summary>
-        /// <returns></returns>
-        public async Task<LoggiResponse<PackageCancelResponse>> CancelarPacote(string trackingCode, string loggiKey = "")
+        /// <param name="trackingCode">Codigo de rastreio da Loggi, pode ser vazio se conter o LoggiKey</param>
+        /// <param name="loggiKey">LoggiKey recebido pela Loggi ao gerar o shipment, é preferivel ao Codigo de rastreio</param>
+        /// <returns><see cref="LoggiResponse{T}"/> Contendo um <see cref="PackageCancelResponse"/> se obter sucesso.</returns>
+        /// <exception cref="InvalidOperationException">Quando trackingCode e loggiKey estão ambos vazios.</exception>
+        public async Task<LoggiResponse<PackageCancelResponse>> CancelarPacote(string trackingCode,
+            string loggiKey = "")
         {
             if (string.IsNullOrEmpty(trackingCode) && string.IsNullOrEmpty(loggiKey))
                 throw new InvalidOperationException(
                     "Deve conter ao menos um dos valores para ser usado TrackingCode ou LoggiKey.");
-            
+
             string query;
             query = !string.IsNullOrEmpty(loggiKey) ? $"?loggi_key={loggiKey}" : $"?tracking_code={trackingCode}";
 
             var response = await _httpClient.SendPostAsync<PackageCancelResponse>
                 ($"/v1/companies/{_companyId}/packages/cancel{query}", null, _token);
-            
+
             return response;
         }
 
-        // TODO: Packages - Update - Medium
+
+        /// <summary>
+        /// *Atualmete Setembro de 2024, não funciona, é retornado pela Loggi como houve falha mesmo estando tudo correto.*
+        /// Esta API permite atualizar as informações de envio de um pacote com novos dados, conforme as informações do company_id, tracking_code ou loggikey.
+        /// É possível alterar as informações do destinatário, desde que o status do pacote não esteja como entregue, cancelado ou extraviado.
+        /// </summary>
+        /// <param name="packageUpdate"></param>
+        /// <returns></returns>
+        /// <exception cref="InvalidOperationException"></exception>
+        /// <exception cref="InvalidDataException"></exception>
         public async Task<LoggiResponse<bool>> AtualizarPacote(PackageUpdate packageUpdate)
         {
             if (packageUpdate == null)
@@ -231,12 +244,11 @@ namespace Loggi.NetSDK
                     "O ShipTo deve está dentro do PackageUpdate para que possa ser atualizado com sucesso,");
 
             var response = await _httpClient.SendPostAsyncBoolResponse
-                           ($"v1/companies/{_companyId}/packages", packageUpdate, _token);
+                ($"v1/companies/{_companyId}/packages", packageUpdate, _token);
 
             return response;
         }
         
-
         // TODO: Loggi Pontos - Medium
 
         // TODO: Janela de Coletas - ez

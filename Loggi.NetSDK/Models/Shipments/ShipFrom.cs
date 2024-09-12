@@ -27,6 +27,9 @@ namespace Loggi.NetSDK.Models.Shipments
         [JsonPropertyName("phoneNumber")]
         public string PhoneNumber { get; set; }
 
+        /// <summary>
+        /// CPF (com 11 dígitos) ou CNPJ (com 14 dígitos) do embarcador.
+        /// </summary>
         [Required(ErrorMessage = "FederalTaxId é necessario.")]
         [MinLength(11)]
         [MaxLength(14)]
@@ -34,6 +37,9 @@ namespace Loggi.NetSDK.Models.Shipments
         public string FederalTaxId { get; set; }
 
 
+        /// <summary>
+        /// Objeto que representa um endereço nacional em formato dos Correios ou um endereço internacional. Os objetos <see cref="CorreiosAddressType"/> e <see cref="LineAddressType"/> são mutuamente exclusivos.
+        /// </summary>
         [JsonPropertyName("address")]
         [JsonConverter(typeof(AddressTypeConverter))]
         public IAddressType Address { get; set; }

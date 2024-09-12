@@ -4,10 +4,14 @@ using Loggi.NetSDK.Models.Addresses;
 namespace Loggi.NetSDK.Models.Shipments.AddressTypes
 {
     /// <summary>
-    /// Objeto que encapsula os possiveis enderecos que podem ser devolvidos pela Loggi na api de Shipment.
+    /// Objeto que encapsula o objeto <see cref="LineAddress"/> para ser enviado ou devolvido para a Loggi.
     /// </summary>
     public class LineAddressType : AddressType
     {
-        [JsonPropertyName("lineAddress")] public LineAddress LineAddress { get; set; }
+        /// <summary>
+        /// Objeto que representa um endereço com padrão internacional. <see cref="Loggi.NetSDK.Models.Addresses.LineAddress"/>
+        /// </summary>
+        [JsonPropertyName("lineAddress")]
+        public LineAddress LineAddress { get; set; }
     }
 }

@@ -1,9 +1,11 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace Loggi.NetSDK.Models.Addresses
 {
+    /// <summary>
+    /// Representação de endereço utilizando Autocomplete UI Widget + context.
+    /// </summary>
     public class WidgetAddress
     {
         /// <summary>

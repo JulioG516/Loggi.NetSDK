@@ -2,6 +2,9 @@
 
 namespace Loggi.NetSDK.Models.Tracking
 {
+    /// <summary>
+    /// Objeto que representa um link contendo Rel e href.
+    /// </summary>
     public class Links
     {
         /// <summary>

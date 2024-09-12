@@ -18,9 +18,16 @@ namespace Loggi.NetSDK.Models.Labels
         public ILabelResponseType Success { get; set; }
 
 
-        [JsonPropertyName("failure")] public List<FailureLabel> Failure { get; set; }
+        /// <summary>
+        /// Lista de loggi keys dos pacotes que não puderam ter as etiquetas geradas e seus respectivos erros.
+        /// </summary>
+        [JsonPropertyName("failure")]
+        public List<FailureLabel> Failure { get; set; }
     }
 
+    /// <summary>
+    /// Representa um objeto que não pode ter sua etiqueta gerada e seu respectivo erro.
+    /// </summary>
     public class FailureLabel
     {
         /// <summary>

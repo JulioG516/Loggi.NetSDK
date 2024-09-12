@@ -2,10 +2,21 @@
 
 namespace Loggi.NetSDK.Models.Authorization
 {
-    public class TokenRequest
+    /// <summary>
+    /// Objeto usado para obter o token da Loggi pela API.
+    /// </summary>
+    internal class TokenRequest
     {
-        [JsonPropertyName("client_id")] public string ClientId { get; set; }
-        [JsonPropertyName("client_secret")] public string ClientSecret { get; set; }
+        /// <summary>
+        /// Id do cliente cadastrado na Loggi.
+        /// </summary>
+        [JsonPropertyName("client_id")]
+        public string ClientId { get; set; }
 
+        /// <summary>
+        /// Chave secreta gerada pela Loggi.
+        /// </summary>
+        [JsonPropertyName("client_secret")]
+        public string ClientSecret { get; set; }
     }
 }

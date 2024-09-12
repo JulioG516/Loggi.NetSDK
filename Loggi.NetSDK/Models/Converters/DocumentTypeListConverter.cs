@@ -19,16 +19,16 @@ namespace Loggi.NetSDK.Models.Converters
                 {
                     if (element.TryGetProperty("invoice", out _))
                     {
-                        list.Add(JsonSerializer.Deserialize<InvoiceDocumentType>(element.GetRawText(), options));
+                        list.Add(JsonSerializer.Deserialize<InvoiceDocumentType>(element.GetRawText(), options)!);
                     }
                     else if (element.TryGetProperty("contentDeclaration", out _))
                     {
                         list.Add(JsonSerializer.Deserialize<ContentDeclarationDocumentType>(element.GetRawText(),
-                            options));
+                            options)!);
                     }
                     else if (element.TryGetProperty("dir", out _))
                     {
-                        list.Add(JsonSerializer.Deserialize<DirDocumentType>(element.GetRawText(), options));
+                        list.Add(JsonSerializer.Deserialize<DirDocumentType>(element.GetRawText(), options)!);
                     }
                     else
                     {

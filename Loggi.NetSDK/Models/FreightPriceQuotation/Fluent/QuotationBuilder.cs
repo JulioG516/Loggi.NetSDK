@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace Loggi.NetSDK.Models.FreightPriceQuotation.Fluent
 {
+    /// <summary>
+    /// Objeto que facilita a construção de <see cref="Quotation"/> através de FluentAPI.
+    /// </summary>
     public class QuotationBuilder : ICanSetUse, ICanSetQuotationProperties
     {
         private QuotationPickupTypes? _quotationPickupTypes;
@@ -13,11 +16,16 @@ namespace Loggi.NetSDK.Models.FreightPriceQuotation.Fluent
         {
         }
 
+        /// <summary>
+        /// Devolve um objeto <see cref="QuotationBuilder"/> para que possa ser criado uma nova <see cref="Quotation"/>
+        /// </summary>
+        /// <returns></returns>
         public static ICanSetUse CreateBuilder()
         {
             return new QuotationBuilder();
         }
 
+        /// <inheritdoc />
         public ICanSetQuotationProperties UseExternalIds(List<string> ids)
         {
             if (_quotationPickupTypes != null)
@@ -32,6 +40,7 @@ namespace Loggi.NetSDK.Models.FreightPriceQuotation.Fluent
             return this;
         }
 
+        /// <inheritdoc />
         public ICanSetQuotationProperties UsePickupTypes(List<string> ids)
         {
             if (_isExternalServices)
@@ -45,6 +54,7 @@ namespace Loggi.NetSDK.Models.FreightPriceQuotation.Fluent
             return this;
         }
 
+        /// <inheritdoc />
         public ICanSetQuotationProperties SetShipFrom(IQuotationAddress shipFrom)
         {
             if (_quotationPickupTypes != null)
@@ -57,6 +67,7 @@ namespace Loggi.NetSDK.Models.FreightPriceQuotation.Fluent
             return this;
         }
 
+        /// <inheritdoc />
         public ICanSetQuotationProperties SetShipTo(IQuotationAddress shipTo)
         {
             if (_quotationPickupTypes != null)
@@ -68,19 +79,21 @@ namespace Loggi.NetSDK.Models.FreightPriceQuotation.Fluent
 
             return this;
         }
-        
-        public ICanSetQuotationProperties AddPackage(QuotationPackage packages)
+
+        /// <inheritdoc />
+        public ICanSetQuotationProperties AddPackage(QuotationPackage package)
         {
             if (_quotationPickupTypes != null)
-                _quotationPickupTypes.Packages!.Add(packages);
+                _quotationPickupTypes.Packages!.Add(package);
             else if (_quotationExternalServices != null)
-                _quotationExternalServices.Packages!.Add(packages);
+                _quotationExternalServices.Packages!.Add(package);
             else
                 throw new InvalidOperationException("Deve especificar se usar PickupTypes ou ExternalIds primeiro.");
 
             return this;
         }
 
+        /// <inheritdoc />
         public Quotation Build()
         {
             if (_quotationPickupTypes != null)

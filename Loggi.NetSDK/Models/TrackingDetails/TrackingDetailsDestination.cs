@@ -3,12 +3,27 @@ using System.Text.Json.Serialization;
 
 namespace Loggi.NetSDK.Models.TrackingDetails
 {
+    /// <summary>
+    /// Objeto que contém informações ligados ao Destino.
+    /// </summary>
     public class TrackingDetailsDestination
     {
-        [JsonPropertyName("recipient")] public DestinationRecipient Destination { get; set; }
-        [JsonPropertyName("postalAddress")] public TrackingAddress PostalAddress { get; set; }
+        /// <summary>
+        /// Objeto que contém informaçoes do destinatario.
+        /// </summary>
+        [JsonPropertyName("recipient")]
+        public DestinationRecipient Destination { get; set; }
+
+        /// <summary>
+        /// Objeto contendo informações de um endereço
+        /// </summary>
+        [JsonPropertyName("postalAddress")]
+        public TrackingAddress PostalAddress { get; set; }
     }
 
+    /// <summary>
+    /// Objeto que contém informaçoes do destinatario.
+    /// </summary>
     public class DestinationRecipient
     {
         /// <summary>

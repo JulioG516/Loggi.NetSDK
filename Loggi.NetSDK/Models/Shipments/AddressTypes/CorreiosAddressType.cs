@@ -4,10 +4,14 @@ using Loggi.NetSDK.Models.Addresses;
 namespace Loggi.NetSDK.Models.Shipments.AddressTypes
 {
     /// <summary>
-    /// Objeto que encapsula os possiveis enderecos que podem ser devolvidos pela Loggi na api de Shipment.
+    /// Objeto que encapsula o objeto <see cref="CorreiosAddress"/> para ser enviado ou devolvido para a Loggi.
     /// </summary>
     public class CorreiosAddressType : AddressType
     {
-        [JsonPropertyName("correiosAddress")] public CorreiosAddress CorreiosAddress { get; set; }
+        /// <summary>
+        /// Objeto que contém informações detalhadas do endereço compatível com o formato da API dos Correios. <see cref="Loggi.NetSDK.Models.Addresses.CorreiosAddress"/>
+        /// </summary>
+        [JsonPropertyName("correiosAddress")]
+        public CorreiosAddress CorreiosAddress { get; set; }
     }
 }

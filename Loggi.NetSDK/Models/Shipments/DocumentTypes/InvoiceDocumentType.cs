@@ -5,11 +5,22 @@ using Loggi.NetSDK.Models.Enums;
 
 namespace Loggi.NetSDK.Models.Shipments.DocumentTypes
 {
+    /// <summary>
+    /// Objeto que implementa um <see cref="DocumentType"/> encapsulando um objeto de Nota Fiscal
+    /// para ser usado na Loggi.
+    /// </summary>
     public class InvoiceDocumentType : DocumentType
     {
-        [JsonPropertyName("invoice")] public Invoice Invoice { get; set; }
+        /// <summary>
+        /// Objeto que representa as características da Nota Fiscal de um pacote.
+        /// </summary>
+        [JsonPropertyName("invoice")]
+        public Invoice Invoice { get; set; }
     }
 
+    /// <summary>
+    /// Objeto que representa as características da Nota Fiscal de um pacote.
+    /// </summary>
     public class Invoice
     {
         /// <summary>
@@ -55,11 +66,22 @@ namespace Loggi.NetSDK.Models.Shipments.DocumentTypes
         [JsonPropertyName("icms")]
         public string Icms { get; set; } = IcmsTypes.Taxed;
 
-        [JsonPropertyName("items")] public List<InvoiceItem> Items { get; set; }
+        /// <summary>
+        /// Lista de items na Nota Fiscal.
+        /// </summary>
+        [JsonPropertyName("items")]
+        public List<InvoiceItem> Items { get; set; }
 
 
-        [JsonPropertyName("shipper")] public Shipper Shipper { get; set; }
+        /// <summary>
+        /// Objeto que representa um remetente nacional ou internacional.
+        /// </summary>
+        [JsonPropertyName("shipper")]
+        public Shipper Shipper { get; set; }
 
+        /// <summary>
+        /// Objeto que representa o tomador de serviço.
+        /// </summary>
         [JsonPropertyName("taker")] public Taker Taker { get; set; }
     }
 

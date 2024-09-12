@@ -53,10 +53,13 @@ namespace Loggi.NetSDK.Models.Tracking
         [JsonPropertyName("trackingHistory")]
         public List<TrackingHistory> TrackingHistory { get; set; }
 
+        /// <summary>
+        /// Objeto contendo a informações da entrega.
+        /// </summary>
         [JsonPropertyName("deliveryInformation")]
         public TrackingDeliveryInformation DeliveryInformation { get; set; }
     }
-    
+
     /// <summary>
     /// Objeto que representa a localização do pacote em seu status atual.
     /// </summary>

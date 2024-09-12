@@ -4,7 +4,7 @@ using Loggi.NetSDK.Models.Addresses;
 namespace Loggi.NetSDK.Models.FreightPriceQuotation
 {
     /// <summary>
-    /// Encapsula os objetos <see cref="CorreiosAddress"/>, <see cref=""/> />
+    /// Encapsula os objetos <see cref="CorreiosAddress"/>, <see cref="LineAddress"/> ou <see cref="WidgetAddress"/> />
     /// </summary>
     public interface IQuotationAddress
     {

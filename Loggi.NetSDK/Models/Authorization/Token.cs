@@ -47,6 +47,10 @@ namespace Loggi.NetSDK.Models.Authorization
             }
         }
 
+        /// <summary>
+        /// Função para checar se o Token continua valido.
+        /// </summary>
+        /// <returns>Valor booleano representando a validade do token.</returns>
         public bool TokenValid()
         {
             if (ExpirationTime > DateTime.Now)

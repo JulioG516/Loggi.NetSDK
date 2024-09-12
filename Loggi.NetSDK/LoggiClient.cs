@@ -18,6 +18,9 @@ using QuotationBuilder = Loggi.NetSDK.Models.FreightPriceQuotation.Fluent.Quotat
 
 namespace Loggi.NetSDK
 {
+    /// <summary>
+    /// Cliente para interagir com a API da Loggi.
+    /// </summary>
     public class LoggiClient
     {
         private string _clientId;
@@ -28,6 +31,10 @@ namespace Loggi.NetSDK
 
         private Token _token;
 
+        /// <summary>
+        /// Construtor do cliente
+        /// </summary>
+        /// <param name="companyId">Código numérico fornecido pela Loggi para identificar o cliente.</param>
         public LoggiClient(string companyId)
         {
             _companyId = companyId;
@@ -186,6 +193,16 @@ namespace Loggi.NetSDK
             return response;
         }
 
+        /// <summary>
+        /// Esta API disponibiliza opções de preços e prazos da Loggi nas plataformas parceiras,
+        /// em tempo real, conforme as características do envio e do parceiro e informações de companyId,
+        /// shipFrom, shipTo, packages, pickupTypes ou externalServiceIds (SISUs).
+        /// Mesmo com poucas informações preenchidas, a API disponibiliza os preços e os prazos mais adequados ao parceiro. Ainda assim, para obter um retorno de estimativa de preço e prazo mais preciso,
+        /// recomendamos o preenchimento de todos os campos obrigatórios.
+        /// </summary>
+        /// <param name="quotation">Objeto Quotation que pode ser criado com um <see cref="QuotationBuilder"/></param>
+        /// <returns><see cref="LoggiResponse{T}"/> com objeto <see cref="QuotationResponse"/> Quando há sucesso.</returns>
+        /// <exception cref="ArgumentNullException">Quqando a quotation ter valor nulo.</exception>
         public async Task<LoggiResponse<QuotationResponse>> CriarCotacao(Quotation quotation)
         {
             if (quotation == null)
@@ -248,7 +265,7 @@ namespace Loggi.NetSDK
 
             return response;
         }
-        
+
         // TODO: Loggi Pontos - Medium
 
         // TODO: Janela de Coletas - ez

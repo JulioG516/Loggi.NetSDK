@@ -11,6 +11,9 @@ namespace Loggi.NetSDK.Models.Shipments
     /// </summary>
     public class Shipper
     {
+        /// <summary>
+        /// Nome do remetente.
+        /// </summary>
         [Required(ErrorMessage = "Name é necessario.")]
         [MinLength(1)]
         [MaxLength(128)]
@@ -24,6 +27,9 @@ namespace Loggi.NetSDK.Models.Shipments
         [JsonPropertyName("nifType")]
         public INifType NifType { get; set; }
 
+        /// <summary>
+        /// Objeto que representa um endereço nacional em formato dos Correios ou um endereço internacional. Os objetos <see cref="CorreiosAddressType"/> e <see cref="LineAddressType"/> são mutuamente exclusivos.
+        /// </summary>
         [Required(ErrorMessage = "Address é necessario.")]
         [JsonConverter(typeof(AddressTypeConverter))]
         [JsonPropertyName("address")]

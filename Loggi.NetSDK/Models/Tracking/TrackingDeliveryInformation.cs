@@ -3,6 +3,9 @@ using System.Text.Json.Serialization;
 
 namespace Loggi.NetSDK.Models.Tracking
 {
+    /// <summary>
+    /// Objeto contendo informações da entrega.
+    /// </summary>
     public class TrackingDeliveryInformation
     {
         /// <summary>
@@ -23,6 +26,11 @@ namespace Loggi.NetSDK.Models.Tracking
         [JsonPropertyName("locationDescription")]
         public string LocationDescription { get; set; }
 
-        [JsonPropertyName("links")] public List<Links> Links { get; set; }
+
+        /// <summary>
+        /// Lista de objetos links <see cref="Links"/>
+        /// </summary>
+        [JsonPropertyName("links")]
+        public List<Links> Links { get; set; }
     }
 }

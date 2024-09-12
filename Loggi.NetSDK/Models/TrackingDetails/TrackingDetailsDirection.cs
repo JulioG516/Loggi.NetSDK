@@ -2,13 +2,33 @@
 
 namespace Loggi.NetSDK.Models.TrackingDetails
 {
+    /// <summary>
+    /// Objeto que contém informaçoes do sentido do pacote.
+    /// </summary>
     public class TrackingDetailsDirection
     {
-        [JsonPropertyName("type")] public DirectionType Type { get; set; }
-        [JsonPropertyName("reason")] public DirectionReason Reason { get; set; }
-        [JsonPropertyName("returnAddress")] public TrackingAddress ReturnAddress { get; set; }
+        /// <summary>
+        /// Objeto que contém informações do tipo de sentido do pacote.
+        /// </summary>
+        [JsonPropertyName("type")]
+        public DirectionType Type { get; set; }
+
+        /// <summary>
+        /// Objeto que contém informações da razão de sentido do pacote.
+        /// </summary>
+        [JsonPropertyName("reason")]
+        public DirectionReason Reason { get; set; }
+
+        /// <summary>
+        ///  Objeto contendo informações de um endereço
+        /// </summary>
+        [JsonPropertyName("returnAddress")]
+        public TrackingAddress ReturnAddress { get; set; }
     }
 
+    /// <summary>
+    /// Objeto que contém informações do tipo de sentido do pacote.
+    /// </summary>
     public class DirectionType
     {
         /// <summary>
@@ -24,6 +44,9 @@ namespace Loggi.NetSDK.Models.TrackingDetails
         public string Description { get; set; }
     }
 
+    /// <summary>
+    /// Objeto que contém informações da razão de sentido do pacote.
+    /// </summary>
     public class DirectionReason
     {
         /// <summary>
@@ -38,6 +61,10 @@ namespace Loggi.NetSDK.Models.TrackingDetails
         [JsonPropertyName("description")]
         public string Description { get; set; }
 
-        [JsonPropertyName("returnAddress")] public TrackingAddress ReturnAddress { get; set; }
+        /// <summary>
+        /// Endereço de devolução relacionado ao pacote. Preenchido somente se o pacote está na direção de devolução.
+        /// </summary>
+        [JsonPropertyName("returnAddress")]
+        public TrackingAddress ReturnAddress { get; set; }
     }
 }

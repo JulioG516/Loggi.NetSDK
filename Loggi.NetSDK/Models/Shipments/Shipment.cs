@@ -5,6 +5,9 @@ using Loggi.NetSDK.Models.Enums;
 
 namespace Loggi.NetSDK.Models.Shipments
 {
+    /// <summary>
+    /// Objeto shipment utilizado na API de criar shipments da Loggi.
+    /// </summary>
     public class Shipment
     {
         /// <summary>

@@ -4,13 +4,20 @@ using System.Text.Json.Serialization;
 namespace Loggi.NetSDK.Models.Shipments.NifTypes
 {
     /// <summary>
-    /// Contém os dados fiscais nacional.
+    /// Objeto que encapsula os tipos de dados Fiscais, sendo este o nacional.
     /// </summary>
     public class NationalNifType : INifType
     {
-        [JsonPropertyName("national")] public NationalNif National { get; set; }
+        /// <summary>
+        /// Objeto contendo informações de dados fiscais nacional.
+        /// </summary>
+        [JsonPropertyName("national")]
+        public NationalNif National { get; set; }
     }
 
+    /// <summary>
+    /// Implementação dos tipos de dados Fiscais, sendo este o nacional.
+    /// </summary>
     public class NationalNif
     {
         /// <summary>

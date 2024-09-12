@@ -1,5 +1,9 @@
-﻿namespace Loggi.NetSDK.Models.Enums
+﻿#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+namespace Loggi.NetSDK.Models.Enums
 {
+    /// <summary>
+    /// Representa os codigos de erros possiveis ao falhar em uma chamada da API.
+    /// </summary>
     public enum EnumErrorCode
     {
         Cancelled = 1,

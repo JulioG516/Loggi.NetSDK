@@ -4,12 +4,22 @@ using System.Text.Json.Serialization;
 
 namespace Loggi.NetSDK.Models.Shipments.DocumentTypes
 {
+    /// <summary>
+    /// Objeto que implementa um <see cref="DocumentType"/> encapsulando um objeto de declaração de conteudo
+    /// para ser usado na Loggi.
+    /// </summary>
     public class ContentDeclarationDocumentType : DocumentType
     {
+        /// <summary>
+        /// Objeto contendo informações da declaração de conteudo.
+        /// </summary>
         [JsonPropertyName("contentDeclaration")]
         public ContentDeclaration ContentDeclaration { get; set; }
     }
 
+    /// <summary>
+    /// Objeto contendo informações da declaração de conteudo.
+    /// </summary>
     public class ContentDeclaration
     {
         /// <summary>
@@ -30,6 +40,9 @@ namespace Loggi.NetSDK.Models.Shipments.DocumentTypes
         [JsonPropertyName("description")]
         public string Description { get; set; }
 
+        /// <summary>
+        /// Lista de items na declaração de conteudo <see cref="ContentDeclarationItem"/>
+        /// </summary>
         [JsonPropertyName("items")] public List<ContentDeclarationItem> Items { get; set; }
 
         /// <summary>
@@ -45,6 +58,9 @@ namespace Loggi.NetSDK.Models.Shipments.DocumentTypes
         public Taker Taker { get; set; }
     }
 
+    /// <summary>
+    /// Objeto que representa um item dentro da declaração de conteudo. Utilizado no <see cref="ContentDeclaration"/>
+    /// </summary>
     public class ContentDeclarationItem
     {
         /// <summary>
@@ -67,6 +83,9 @@ namespace Loggi.NetSDK.Models.Shipments.DocumentTypes
         [JsonPropertyName("unitaryValue")]
         public int UnitaryValue { get; set; }
 
+        /// <summary>
+        /// Peso do item na declaração de conteúdo
+        /// </summary>
         [Range(0, 30000)]
         [JsonPropertyName("unitaryWeightG")]
         public int UnitaryWeightG { get; set; }

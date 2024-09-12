@@ -7,6 +7,10 @@ using Loggi.NetSDK.Models.Shipments.DocumentTypes;
 
 namespace Loggi.NetSDK.Models.Shipments
 {
+    /// <summary>
+    /// Pacote associado ao envio. A soma das medidas (altura, largura e comprimento) do pacote não podem passar de 200 cm.
+    /// Utilizado no <see cref="Shipment"/>
+    /// </summary>
     public class Package
     {
         /// <summary>
@@ -52,16 +56,25 @@ namespace Loggi.NetSDK.Models.Shipments
         [JsonPropertyName("lengthCm")]
         public int LengthCm { get; set; }
 
+        /// <summary>
+        /// Largura do pacote em centrímetros. Valor máximo 100.
+        /// </summary>
         [Required(ErrorMessage = "WidthCm é necessario.")]
         [Range(0, 100)]
         [JsonPropertyName("widthCm")]
         public int WidthCm { get; set; }
 
+        /// <summary>
+        /// Altura do pacote em centímetros. Valor máximo 100.
+        /// </summary>
         [Required(ErrorMessage = "HeightCm é necessario.")]
         [Range(0, 100)]
         [JsonPropertyName("heightCm")]
         public int HeightCm { get; set; }
 
+        /// <summary>
+        /// Tipos de documentos associados ao pacote.
+        /// </summary>
         [JsonPropertyName("documentTypes")]
         [JsonConverter(typeof(DocumentTypeListConverter))]
         public List<IDocumentType> DocumentTypes { get; set; }
@@ -72,8 +85,15 @@ namespace Loggi.NetSDK.Models.Shipments
         [JsonPropertyName("packaged")]
         public bool Packaged { get; set; } = true;
 
+        /// <summary>
+        /// Valor que identifica se o pacote está etiquetado. Por padrão, o pacote é considerado etiquetado (true).
+        /// </summary>
         [JsonPropertyName("labelled")] public bool Labelled { get; set; } = true;
 
+        /// <summary>
+        /// Valor enviado pelo cliente para identificar um pacote dentro de um Shipment. Este valor será retornado
+        ///na resposta. Tamanho máximo 100.
+        /// </summary>
         [MinLength(0)]
         [MaxLength(100)]
         [JsonPropertyName("sequence")]

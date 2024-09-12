@@ -173,7 +173,7 @@ public class Tests
     [Test]
     public void TestInvalidShipmentBuilder()
     {
-        var shipmentBuilder = new ShipmentBuilder();
+        var shipmentBuilder = ShipmentBuilder.CreateBuilder();
         shipmentBuilder = shipmentBuilder.SetShipFrom(new ShipFrom()
         {
             Name = "Jose dos Santos Alvarenga",
@@ -202,7 +202,7 @@ public class Tests
     [Test]
     public void TestValidShipmentBuilder()
     {
-        var shipmentBuilder = new ShipmentBuilder();
+        var shipmentBuilder = ShipmentBuilder.CreateBuilder();
         var shipment = shipmentBuilder.SetShipFrom(new ShipFrom()
         {
             Name = "Jose dos Santos Alvarenga",
@@ -271,7 +271,7 @@ public class Tests
     [Ignore(reason: "Para não criar diversos shipments enviando a loggi.")]
     public async Task TestSendValidShipment()
     {
-        var shipmentBuilder = new ShipmentBuilder();
+        var shipmentBuilder = ShipmentBuilder.CreateBuilder();
         var shipment = shipmentBuilder.SetShipFrom(new ShipFrom()
         {
             Name = "Jose dos Santos Alvarenga",
@@ -350,7 +350,7 @@ public class Tests
     public async Task TestSendInvalidShipment()
     {
         // Sends with an empty ShipFrom 
-        var shipmentBuilder = new ShipmentBuilder();
+        var shipmentBuilder = ShipmentBuilder.CreateBuilder();
         var shipment = shipmentBuilder.SetShipFrom(new ShipFrom())
             .SetShipTo(new ShipTo()
             {

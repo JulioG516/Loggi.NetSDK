@@ -4,11 +4,22 @@ using System.Text.Json.Serialization;
 
 namespace Loggi.NetSDK.Models.Shipments.DocumentTypes
 {
+    /// <summary>
+    /// Objeto que implementa um <see cref="DocumentType"/> encapsulando um objeto de Dir
+    /// para ser usado na Loggi.
+    /// </summary>
     public class DirDocumentType : DocumentType
     {
-        [JsonPropertyName("dir")] public Dir Dir { get; set; }
+        /// <summary>
+        /// Objeto que representa uma declaração DIR
+        /// </summary>
+        [JsonPropertyName("dir")]
+        public Dir Dir { get; set; }
     }
 
+    /// <summary>
+    /// Objeto que representa uma declaração DIR
+    /// </summary>
     public class Dir
     {
         /// <summary>
@@ -70,7 +81,11 @@ namespace Loggi.NetSDK.Models.Shipments.DocumentTypes
         [JsonPropertyName("importTaxValue")]
         public string ImportTaxValue { get; set; }
 
-        [JsonPropertyName("items")] public List<DirItem> Items { get; set; }
+        /// <summary>
+        /// Lista de items na declaração tipo DIR.
+        /// </summary>
+        [JsonPropertyName("items")]
+        public List<DirItem> Items { get; set; }
 
         /// <summary>
         /// Objeto que representa um remetente nacional ou internacional.
@@ -85,6 +100,9 @@ namespace Loggi.NetSDK.Models.Shipments.DocumentTypes
         public Taker Taker { get; set; }
     }
 
+    /// <summary>
+    /// Objeto item para ser utilizado dentro da declaração do tipo <see cref="Dir"/>
+    /// </summary>
     public class DirItem
     {
         /// <summary>

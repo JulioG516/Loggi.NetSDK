@@ -2,17 +2,33 @@
 
 namespace Loggi.NetSDK.Models.TrackingDetails
 {
+    /// <summary>
+    /// Informações de volume do pacote.
+    /// </summary>
     public class TrackingDetailsVolumetricInfo
     {
+        /// <summary>
+        /// Peso que vai ser considerado para o cálculo final da cobrança, representado em gramas (g).
+        /// </summary>
         [JsonPropertyName("consideredWeightG")]
         public int ConsideredWeightG { get; set; }
 
+        /// <summary>
+        /// Dados fornecidos pelo embarcador no envio do pacote.
+        /// </summary>
         [JsonPropertyName("integration_values")]
-        public VolumetricInfoIntegrationValues Integration_values { get; set; }
+        public VolumetricInfoIntegrationValues IntegrationValues { get; set; }
 
-        [JsonPropertyName("measured_values")] public VolumetricInfoMeasuredValues Measured_values { get; set; }
+        /// <summary>
+        /// Dados revisados pela Loggi para pacotes medidos e pesados em nossas bases.
+        /// </summary>
+        [JsonPropertyName("measured_values")]
+        public VolumetricInfoMeasuredValues MeasuredValues { get; set; }
     }
 
+    /// <summary>
+    /// Dados fornecidos pelo embarcador no envio do pacote.
+    /// </summary>
     public class VolumetricInfoIntegrationValues
     {
         /// <summary>
@@ -21,9 +37,16 @@ namespace Loggi.NetSDK.Models.TrackingDetails
         [JsonPropertyName("cubicWeightG")]
         public int CubicWeightG { get; set; }
 
-        [JsonPropertyName("dimensions")] public TrackingDetailsDimension Dimensions { get; set; }
+        /// <summary>
+        /// Objeto que contèm detalhes da dimensão do pacote.
+        /// </summary>
+        [JsonPropertyName("dimensions")]
+        public TrackingDetailsDimension Dimensions { get; set; }
     }
 
+    /// <summary>
+    /// Dados revisados pela Loggi para pacotes medidos e pesados em nossas bases.
+    /// </summary>
     public class VolumetricInfoMeasuredValues
     {
         /// <summary>
@@ -32,6 +55,10 @@ namespace Loggi.NetSDK.Models.TrackingDetails
         [JsonPropertyName("cubicWeightG")]
         public int CubicWeightG { get; set; }
 
-        [JsonPropertyName("dimensions")] public TrackingDetailsDimension Dimensions { get; set; }
+        /// <summary>
+        /// Objeto que contèm detalhes da dimensão do pacote.
+        /// </summary>
+        [JsonPropertyName("dimensions")]
+        public TrackingDetailsDimension Dimensions { get; set; }
     }
 }

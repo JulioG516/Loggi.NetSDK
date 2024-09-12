@@ -28,8 +28,11 @@ namespace Loggi.NetSDK.Models.TrackingDetails
         [JsonPropertyName("status")]
         public TrackingStatus Status { get; set; }
 
-
-        [JsonPropertyName("destination")] public TrackingDetailsDestination Destination { get; set; }
+        /// <summary>
+        /// Objeto que contém informações ligados ao Destino.
+        /// </summary>
+        [JsonPropertyName("destination")]
+        public TrackingDetailsDestination Destination { get; set; }
 
         /// <summary>
         /// Estimativa de data para a primeira tentativa de entrega.
@@ -39,10 +42,29 @@ namespace Loggi.NetSDK.Models.TrackingDetails
         public DateTime? PromisedDate { get; set; }
 
 
-        [JsonPropertyName("dimension")] public TrackingDetailsDimension Dimension { get; set; }
-        [JsonPropertyName("invoice")] public TrackingDetailsInvoice Invoice { get; set; }
-        [JsonPropertyName("origin")] public TrackingDetailsOrigin Origin { get; set; }
-        [JsonPropertyName("receiver")] public TrackingDetailsReceiver Receiver { get; set; }
+        /// <summary>
+        /// Objeto que contèm detalhes da dimensão do pacote.
+        /// </summary>
+        [JsonPropertyName("dimension")]
+        public TrackingDetailsDimension Dimension { get; set; }
+
+        /// <summary>
+        /// Objeto que contém detalhes da nota fiscal do pacote.
+        /// </summary>
+        [JsonPropertyName("invoice")]
+        public TrackingDetailsInvoice Invoice { get; set; }
+
+        /// <summary>
+        /// Objeto que contém informações da origem do pacote.
+        /// </summary>
+        [JsonPropertyName("origin")]
+        public TrackingDetailsOrigin Origin { get; set; }
+
+        /// <summary>
+        /// objeto que contém informações de quem recebeu o pacote.
+        /// </summary>
+        [JsonPropertyName("receiver")]
+        public TrackingDetailsReceiver Receiver { get; set; }
 
         /// <summary>
         /// Objeto que representa as informações de precificação do envio de um pacote.
@@ -53,14 +75,32 @@ namespace Loggi.NetSDK.Models.TrackingDetails
         /// <summary>
         /// Representação númerica do SLO (Service Level Objective) associado ao pacote. Comumente 0 ou 1.
         /// </summary>
-        [JsonPropertyName("slo")] public int Slo { get; set; }
-        [JsonPropertyName("redispatch")] public TrackingDetailsRedispatch Redispatch { get; set; }
-        [JsonPropertyName("direction")] public TrackingDetailsDirection Direction { get; set; }
+        [JsonPropertyName("slo")]
+        public int Slo { get; set; }
 
+        /// <summary>
+        /// Objeto que contém informações relacionados a operação de redespacho do pacote.
+        /// </summary>
+        [JsonPropertyName("redispatch")]
+        public TrackingDetailsRedispatch Redispatch { get; set; }
+
+        /// <summary>
+        /// Objeto que contém informações relacionados a direção do pacote.
+        /// </summary>
+        [JsonPropertyName("direction")]
+        public TrackingDetailsDirection Direction { get; set; }
+
+        /// <summary>
+        /// Objeto que contém informações relacionados a informação de entrega do pacote.
+        /// </summary>
         [JsonPropertyName("deliveryInformation")]
         public TrackingDeliveryInformation DeliveryInformation { get; set; }
 
-        [JsonPropertyName("pickup_receipt")] public TrackingDetailsPickupReceipt PickupReceipt { get; set; }
+        /// <summary>
+        /// Objeto que contém informações relacionados a informação de coleta do pacote..
+        /// </summary>
+        [JsonPropertyName("pickup_receipt")]
+        public TrackingDetailsPickupReceipt PickupReceipt { get; set; }
 
         /// <summary>
         /// Informações de volume do pacote.
@@ -75,6 +115,9 @@ namespace Loggi.NetSDK.Models.TrackingDetails
         public DateTime? RequestTime { get; set; }
     }
 
+    /// <summary>
+    /// Objeto que contèm detalhes da dimensão do pacote.
+    /// </summary>
     public class TrackingDetailsDimension
     {
         /// <summary>
@@ -102,6 +145,9 @@ namespace Loggi.NetSDK.Models.TrackingDetails
         public int HeightCm { get; set; }
     }
 
+    /// <summary>
+    /// Objeto que contém detalhes da nota fiscal do pacote.
+    /// </summary>
     public class TrackingDetailsInvoice
     {
         /// <summary>
@@ -129,6 +175,9 @@ namespace Loggi.NetSDK.Models.TrackingDetails
         public string TotalValue { get; set; }
     }
 
+    /// <summary>
+    /// Objeto que contém informações da origem do pacote.
+    /// </summary>
     public class TrackingDetailsOrigin
     {
         /// <summary>
@@ -138,6 +187,9 @@ namespace Loggi.NetSDK.Models.TrackingDetails
         public string PostalCode { get; set; }
     }
 
+    /// <summary>
+    /// objeto que contém informações de quem recebeu o pacote.
+    /// </summary>
     public class TrackingDetailsReceiver
     {
         /// <summary>
@@ -147,6 +199,9 @@ namespace Loggi.NetSDK.Models.TrackingDetails
         public string Name { get; set; }
     }
 
+    /// <summary>
+    /// Objeto que representa as informações de precificação do envio de um pacote.
+    /// </summary>
     public class TrackingDetailsPricing
     {
         /// <summary>
@@ -156,6 +211,9 @@ namespace Loggi.NetSDK.Models.TrackingDetails
         public PricingAmount Amount { get; set; }
     }
 
+    /// <summary>
+    /// Objeto que representa as informações de precificação do envio de um pacote.
+    /// </summary>
     public class TrackingDetailsRedispatch
     {
         /// <summary>
@@ -165,6 +223,9 @@ namespace Loggi.NetSDK.Models.TrackingDetails
         public string Barcode { get; set; }
     }
 
+    /// <summary>
+    /// Objeto que contém informações relacionados a informação de coleta do pacote..
+    /// </summary>
     public class TrackingDetailsPickupReceipt
     {
         /// <summary>

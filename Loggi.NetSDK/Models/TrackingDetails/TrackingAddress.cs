@@ -3,6 +3,9 @@ using System.Text.Json.Serialization;
 
 namespace Loggi.NetSDK.Models.TrackingDetails
 {
+    /// <summary>
+    ///  Objeto contendo informações de um endereço
+    /// </summary>
     public class TrackingAddress
     {
         /// <summary>

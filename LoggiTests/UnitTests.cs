@@ -771,9 +771,34 @@ public class Tests
         });
 
 
-
         Assert.That(response.Error, Is.Null);
         Assert.That(response.Data, Is.Not.Null);
+    }
+
+    #endregion
+
+    #region Janela de Coletas
+
+    [Test]
+    [Ignore(reason: "Loggi devolve um erro com autenticação falha, mesmo estando correto.")]
+    public async Task TestJanelaColeta()
+    {
+        var response = await _loggiClient.BuscarJanelaColeta(new CorreiosAddressType()
+        {
+            Instrunctions = "",
+            CorreiosAddress = new CorreiosAddress()
+            {
+                Logradouro = "R. Liberdade",
+                Numero = "2400",
+                Cep = "30622580",
+                Cidade = "Belo Horizonte",
+                Uf = "MG"
+            }
+        });
+
+        TestContext.WriteLine(JsonSerializer.Serialize(response));
+
+        Assert.That(response.Error, Is.Null);
     }
 
     #endregion

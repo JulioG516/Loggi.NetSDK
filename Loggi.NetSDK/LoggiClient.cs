@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -15,7 +14,9 @@ using Loggi.NetSDK.Models.Package;
 using Loggi.NetSDK.Models.Shipments;
 using Loggi.NetSDK.Models.Tracking;
 using Loggi.NetSDK.Models.TrackingDetails;
-using QuotationBuilder = Loggi.NetSDK.Models.FreightPriceQuotation.Fluent.QuotationBuilder;
+using Loggi.NetSDK.Models.FreightPriceQuotation.Fluent;
+using Loggi.NetSDK.Models.PickupTime;
+using Loggi.NetSDK.Models.Shipments.AddressTypes;
 
 namespace Loggi.NetSDK
 {
@@ -286,7 +287,30 @@ namespace Loggi.NetSDK
             return response;
         }
 
+        /// <summary>
+        /// *Atualmente Setembro de 2024 não funciona direito.* Para buscar uma janela de coleta, você precisará informar o endereço de coleta
+        /// </summary>
+        /// <param name="endereco">Endereco para a janela de coletas do tipo <see cref="CorreiosAddressType"/> ou <see cref="LineAddressType"/></param>
+        /// <returns></returns>
+        /// <exception cref="InvalidOperationException">Quando o endereco é null.</exception>
+        /// <exception cref="InvalidOperationException">Quando não é do tipo correto.</exception>
+        public async Task<LoggiResponse<JanelaColetaResponse>> BuscarJanelaColeta(IAddressType endereco)
+        {
+            if (endereco == null)
+                throw new InvalidOperationException("Endereco não pode ser null");
 
-        // TODO: Janela de Coletas 
+            if (!(endereco is CorreiosAddressType) && !(endereco is LineAddressType))
+                throw new InvalidOperationException("Deve ter um tipo de CorreiosAddressType ou LineAddressType");
+
+            var body = new JanelaColetaRequest()
+            {
+                Address = endereco
+            };
+
+            var response = await _httpClient.SendPostAsync<JanelaColetaResponse>
+                ($"api.loggi.com/v1/pickup/timeslot", body, _token);
+
+            return response;
+        }
     }
 }

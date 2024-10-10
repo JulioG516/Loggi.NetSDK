@@ -801,5 +801,11 @@ public class Tests
         Assert.That(response.Error, Is.Null);
     }
 
+    [Test]
+    public void TestThrowsLoggiJanela()
+    {
+        Assert.ThrowsAsync<InvalidOperationException>(async () => { await _loggiClient.BuscarJanelaColeta(null); });
+    }
+
     #endregion
 }

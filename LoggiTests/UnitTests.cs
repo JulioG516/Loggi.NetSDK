@@ -515,7 +515,7 @@ public class Tests
     [Test]
     public async Task TestCriarUmaEtiqueta()
     {
-        var response = await _loggiClient.CriarEtiqueta("MVTTG2LG3TXAOY3DASIM3WQZT4");
+        var response = await _loggiClient.CriarEtiqueta("MVTTG2LG3TXAOY3DASIM3WQZT4", LabelLayouts.LayoutA6);
 
         Assert.That(response.Error, Is.Null);
         Assert.That(response.Data, Is.Not.Null);

@@ -5,6 +5,13 @@
         <Nullable>enable</Nullable>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <NoWarn>CS8618</NoWarn>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <Title>Loggi.NET</Title>
+        <Authors>JulioG516</Authors>
+        <Description>O Loggi .Net SDK é uma biblioteca poderosa e fácil de usar que permite integrar as funcionalidades da API da Loggi diretamente em suas aplicações .NET. Com este SDK, você pode realizar diversas operações de forma simples e eficiente, utilizando métodos e classes intuitivas.</Description>
+        <PackageProjectUrl>https://github.com/JulioG516/Loggi.NetSDK</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/JulioG516/Loggi.NetSDK</RepositoryUrl>
+        <PackageTags>loggi, loggi sdk, SDK, correios, transportadora, Loggi, transportadora loggi, loggi envios</PackageTags>
         
     </PropertyGroup>
 

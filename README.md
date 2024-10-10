@@ -14,6 +14,17 @@ utilizando métodos e classes intuitivas.
 - Gerar etiquetas
 - E muito mais!
 
+Para mais detalhes sobre as funcionalidades disponíveis, 
+consulte a documentação oficial da API [Loggi]("https://docs.api.loggi.com/reference").
+
+
+## Observações Importantes
+
+Alguns endpoints da API Loggi podem não estar funcionando conforme esperado. Por exemplo:
+
+- O método AtualizarPacote, que utiliza Package -> PackageUpdate.
+- O método BuscarJanelaColeta, que utiliza PickupTimeSlotApi.
+
 ## Instalando
 
 ```sh

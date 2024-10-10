@@ -119,7 +119,7 @@ else
 ```csharp
         var response = await _loggiClient.CriarEtiqueta("MVTTG2LG3TXAOY3DASIM3WQZT4", LabelLayouts.LayoutA6);
         if (response.IsSuccess)
-        {~~~~
+        {
             Console.WriteLine(response.Data);
         }
         else

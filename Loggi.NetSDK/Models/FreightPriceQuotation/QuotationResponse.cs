@@ -11,6 +11,18 @@ namespace Loggi.NetSDK.Models.FreightPriceQuotation
         /// <summary>
         /// Objeto que representa a cotação de cada pacote.
         /// </summary>
+        [JsonPropertyName("packagesQuotations")]
+        public List<PackageQuotations> PackageQuotations { get; set; }
+    }
+    
+    /// <summary>
+    /// Wrapper do objeto Quotation Response que contem a lista de cotacoes. 
+    /// </summary>
+    public class PackageQuotations
+    {
+        /// <summary>
+        /// Objeto que representa a cotação de cada pacote.
+        /// </summary>
         [JsonPropertyName("quotations")] public List<LoggiQuotation> Quotations { get; set; }
     }
 }

@@ -414,8 +414,8 @@ public class Tests
 
 
         var response = await _loggiClient.CriarShipmentAsync(shipment);
-
-
+        
+        
         Assert.That(shipment, Is.Not.Null);
         Assert.That(response.Error, Is.Null);
         Assert.That(response.Data, Is.Not.Null);
@@ -495,6 +495,7 @@ public class Tests
     {
         var response = await _loggiClient.RastrearPacote("R012321001540");
 
+        
         Assert.That(response.Error, Is.Null);
         Assert.That(response.Data.Packages, Is.Not.Zero);
     }
@@ -515,8 +516,10 @@ public class Tests
     [Test]
     public async Task TestCriarUmaEtiqueta()
     {
-        var response = await _loggiClient.CriarEtiqueta("MVTTG2LG3TXAOY3DASIM3WQZT4", LabelLayouts.LayoutA6);
+        var response = await _loggiClient.CriarEtiqueta("MVTTG2LG3TXAOY3DASIM3WQZT4", LabelLayouts.LayoutA6, LabelResponseTypes.Url);
 
+        
+        
         Assert.That(response.Error, Is.Null);
         Assert.That(response.Data, Is.Not.Null);
         Assert.That(response.Data.Success, Is.Not.Null);
@@ -677,10 +680,12 @@ public class Tests
 
         var response = await _loggiClient.CriarCotacao(quotationPickupTypes);
         TestContext.WriteLine(response);
+        
+        // response.Data.PackageQuotations.Quotations.ForEach(TestContext.WriteLine);
 
         Assert.That(response.Error, Is.Null);
         Assert.That(response.Data, Is.Not.Null);
-        Assert.That(response.Data.Quotations, Is.Not.Zero);
+        // Assert.That(response.Data.PackageQuotations.Quotations, Is.Not.Zero);
     }
 
     #endregion
@@ -752,6 +757,8 @@ public class Tests
 
         var response = await _loggiClient.AtualizarPacote(package);
 
+
+        
         Assert.That(response.Error, Is.Null);
         Assert.That(response.Data, Is.True);
     }

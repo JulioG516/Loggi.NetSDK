@@ -100,7 +100,7 @@ namespace Loggi.NetSDK
             if (shipment.Packages == null || !shipment.Packages.Any())
                 throw new ArgumentNullException(nameof(shipment.Packages), "Packages deve conter ao menos um valor.");
 
-
+            
             var response = await _httpClient.SendPostAsync<ShipmentResponse>(
                 $"v1/companies/{_companyId}/async-shipments",
                 shipment, _token);

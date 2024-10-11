@@ -18,7 +18,7 @@ namespace Loggi.NetSDK.Models
         /// Informações do erro, caso a chamada da API tenha falha.
         /// </summary>
         public ErrorResponse? Error { get; set; }
-
+        
         /// <summary>
         /// Indica se a chamada da API foi bem sucedida.
         /// </summary>

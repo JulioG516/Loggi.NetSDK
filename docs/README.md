@@ -1,12 +1,17 @@
-# Loggi.NET
+# Loggi.NET  :rabbit2:
 
 > O Loggi .Net SDK é uma biblioteca poderosa e fácil de usar que permite integrar as funcionalidades da API da Loggi diretamente em suas aplicações .NET. Com este SDK, você pode realizar diversas operações de forma simples e eficiente, utilizando métodos e classes intuitivas.
 
 ## Como começar
-Primeiro, instale o pacote nuget via CLI ou gerenciador de Nugets do Visual Studio ou Jetbrains Rider.
+Primeiro, instale o pacote Nuget via CLI ou gerenciador de Nuget do Visual Studio ou Jetbrains Rider.
+
+[![Nuget](https://img.shields.io/nuget/v/Loggi.NETSDK)](https://www.nuget.org/packages/Loggi.NetSDK/)
+
+- Instalando via CLI
 ```sh
 dotnet add package Loggi.NetSDK --version latest
 ```
+
 
 ## Instanciando um cliente
 Para criar um cliente, você precisará do `CompanyId` fornecido pela Loggi. Além disso, é necessário autenticar o cliente utilizando o `ClientId` e o `ClientSecret`.
@@ -36,3 +41,7 @@ else
 - response.IsSuccess: Indica se a requisição foi bem-sucedida.
 - response.Data: Contém os dados retornados pela API quando a requisição é bem-sucedida.
 - response.Error: Contém informações sobre o erro ocorrido, caso a requisição falhe
+
+## Autor
+Este projeto foi desenvolvido por **Julio Gabriel**. Sou um desenvolvedor NET. que adora tecnologia e música, você pode conhecer um pouco mais do meu trabalho em
+[juliogabriel.net](https://juliogabriel.net/)

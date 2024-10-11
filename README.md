@@ -14,8 +14,8 @@ utilizando métodos e classes intuitivas.
 - Gerar etiquetas
 - E muito mais!
 
-Para mais detalhes sobre as funcionalidades disponíveis, 
-consulte a documentação oficial da API [Loggi]("https://docs.api.loggi.com/reference").
+## Documentação
+Para obter mais detalhes sobre como utilizar o SDK, acesse a [página de documentação](https://juliog516.github.io/Loggi.NetSDK/#/).
 
 
 ## Observações Importantes
